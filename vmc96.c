@@ -170,8 +170,8 @@ const char * vmc96_get_error_code_string( int cod )
 int vmc96_relay_ping( VMC96_t * vmc96, unsigned char id )
 {
 	return vmc96_send_message( vmc96,
-							   VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-							   VMC96_COMMAND_SIMPLE_PING );
+	                           VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
+	                           VMC96_COMMAND_SIMPLE_PING );
 }
 
 
@@ -180,8 +180,8 @@ int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version )
 	int ret = 0;
 
 	ret = vmc96_send_message( vmc96,
-							  VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-							  VMC96_COMMAND_KERNEL_VERSION );
+	                          VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
+	                          VMC96_COMMAND_KERNEL_VERSION );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
@@ -199,19 +199,19 @@ int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version )
 int vmc96_relay_reset( VMC96_t * vmc96, unsigned char id )
 {
 	return vmc96_send_message( vmc96,
-							   VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-							   VMC96_COMMAND_RESET );
+	                           VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
+	                           VMC96_COMMAND_RESET );
 }
 
 
 int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, unsigned char state )
 {
 	return vmc96_send_message_ex( vmc96,
-								  VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-								  VMC96_COMMAND_RELAY_FUNCTION,
-								  &state,
-								  1,
-								  VMC96_DEFAULT_RESPONSE_DELAY_US );
+	                              VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
+	                              VMC96_COMMAND_RELAY_FUNCTION,
+	                              &state,
+	                              1,
+	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
 }
 
 
@@ -222,8 +222,8 @@ int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, unsigned char state 
 int vmc96_motor_ping( VMC96_t * vmc96 )
 {
 	return vmc96_send_message( vmc96,
-							   VMC96_CONTROLLER_MOTOR_ARRAY,
-							   VMC96_COMMAND_SIMPLE_PING );
+	                           VMC96_CONTROLLER_MOTOR_ARRAY,
+	                           VMC96_COMMAND_SIMPLE_PING );
 }
 
 
@@ -232,8 +232,8 @@ int vmc96_motor_get_version( VMC96_t * vmc96, char * version )
 	int ret = 0;
 
 	ret = vmc96_send_message( vmc96,
-							  VMC96_CONTROLLER_MOTOR_ARRAY,
-							  VMC96_COMMAND_KERNEL_VERSION );
+	                          VMC96_CONTROLLER_MOTOR_ARRAY,
+	                          VMC96_COMMAND_KERNEL_VERSION );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
