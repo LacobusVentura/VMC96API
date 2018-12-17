@@ -1,2 +1,2 @@
-# vmc96
-VMC96 (MoneyFlex Vending Machine Controller)
+# VMC96
+MoneyFlex Vending Machine Controller
