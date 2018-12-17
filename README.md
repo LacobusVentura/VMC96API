@@ -1,2 +1,2 @@
-# VMC96
-MoneyFlex Vending Machine Controller
+# VMC96 - Control Interface
+MoneyFlex Vending Machine Controller Board
