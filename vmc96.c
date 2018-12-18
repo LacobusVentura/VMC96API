@@ -37,7 +37,7 @@
 #define VMC96_POSITIVE_ACK_CODE                           (0x00)
 #define VMC96_NEGATIVE_ACK_CODE                           (0xFF)
 #define VMC96_DEFAULT_RESPONSE_DELAY_US                   (20000L)  /* 20 ms*/
-#define VMC96_LONG_RESPONSE_DELAY_US                      (300000L) /* 300 ms */
+#define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)     /* 500 mA */
 
 /* VMC96 AVAILABLE CONTROLLERS */
 #define VMC96_CONTROLLER_GLOBAL_BROADCAST                 (0x00)
@@ -50,22 +50,24 @@
 #define VMC96_COMMAND_SIMPLE_PING                         (0x00)
 #define VMC96_COMMAND_GLOBAL_RESET                        (0x01)
 #define VMC96_COMMAND_KERNEL_VERSION                      (0x02)
-#define VMC96_COMMAND_GLOBAL_SUSPEND                      (0x03)
 #define VMC96_COMMAND_RESET                               (0x05)
-#define VMC96_COMMAND_ADDRESS_CLASH                       (0x05)
-
-/* GENERAL PURPOSE RELAY COMMANDS */
-#define VMC96_COMMAND_RELAY_FUNCTION                      (0x11)
 
 /* MOTOR ARRAY COMMANDS */
-#define VMC96_COMMAND_MOTOR_DRIVER_SETUP                  (0x04)
 #define VMC96_COMMAND_MOTOR_RESET                         (0x05)
 #define VMC96_COMMAND_MOTOR_STATUS_REQUEST                (0x10)
 #define VMC96_COMMAND_MOTOR_SCAN_ARRAY                    (0x11)
 #define VMC96_COMMAND_MOTOR_STOP_ALL                      (0x12)
 #define VMC96_COMMAND_MOTOR_RUN                           (0x13)
-#define VMC96_COMMAND_MOTOR_GIVE_PULSE                    (0x14)
 #define VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS              (0x15)
+
+/* GENERAL PURPOSE RELAYS COMMANDS */
+#define VMC96_COMMAND_RELAY_FUNCTION                      (0x11)
+
+/* HELPERS */
+#define VMC96_GET_MOTOR_ID( _row, _col )                    (((_row + 1) << 4) + (_col + 1))
+#define VMC96_GET_MOTOR_ROW( _mid )                         ( ( (_mid & 0xF0) >> 4 ) - 1 )
+#define VMC96_GET_MOTOR_COL( _mid )                         ( ( _mid & 0x0F ) - 1 )
+#define VMC96_GET_MOTOR_CURRENT_MA( _val )                  (( VMC96_MOTOR_MAX_CURRENT_READING_MA * _val) / 255 )
 
 
 /* ********************************************************************* */
@@ -90,7 +92,6 @@ struct VMC96_s
 {
 	struct ftdi_context * ftdi;
 	struct ftdi_version_info ftdi_version;
-	unsigned long response_delay_us;
 	vmc96_message_t message;
 	vmc96_message_t response;
 };
@@ -106,7 +107,7 @@ static int vmc96_send_raw_message( VMC96_t * vmc96 );
 static int vmc96_prepare_raw_message( VMC96_t * vmc96 );
 static int vmc96_parse_raw_response( VMC96_t * vmc96 );
 static int vmc96_send_message( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd );
-static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd, unsigned char * data, unsigned char datalen, unsigned long wait_delay );
+static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd, unsigned char * data, unsigned char datalen );
 
 
 /* ********************************************************************* */
@@ -184,14 +185,12 @@ const char * vmc96_get_error_code_string( int cod )
 
 
 /* ********************************************************************* */
-/* *                     RELAY CONTROLLER                              * */
+/* *               GENERAL PURPOSE RELAYS CONTROL FUNCTIONS            * */
 /* ********************************************************************* */
 
 int vmc96_relay_ping( VMC96_t * vmc96, unsigned char id )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-	                           VMC96_COMMAND_SIMPLE_PING );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id, VMC96_COMMAND_SIMPLE_PING );
 }
 
 
@@ -199,12 +198,12 @@ int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version )
 {
 	int ret = 0;
 
-	ret = vmc96_send_message( vmc96,
-	                          VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-	                          VMC96_COMMAND_KERNEL_VERSION );
+	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id, VMC96_COMMAND_KERNEL_VERSION );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
+		
+	*version = '\0';
 
 	if( vmc96->response.data_length > 0 )
 	{
@@ -218,32 +217,23 @@ int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version )
 
 int vmc96_relay_reset( VMC96_t * vmc96, unsigned char id )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-	                           VMC96_COMMAND_RESET );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id, VMC96_COMMAND_RESET );
 }
 
 
 int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, unsigned char state )
 {
-	return vmc96_send_message_ex( vmc96,
-	                              VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id,
-	                              VMC96_COMMAND_RELAY_FUNCTION,
-	                              &state,
-	                              1,
-	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
+	return vmc96_send_message_ex( vmc96, VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id, VMC96_COMMAND_RELAY_FUNCTION, &state, 1 );
 }
 
 
 /* ********************************************************************* */
-/* *                     MOTOR CONTROLLER                              * */
+/* *                  MOTOR ARRAY CONTROL FUNCTIONS                    * */
 /* ********************************************************************* */
 
 int vmc96_motor_ping( VMC96_t * vmc96 )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_SIMPLE_PING );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_SIMPLE_PING );
 }
 
 
@@ -251,9 +241,7 @@ int vmc96_motor_get_version( VMC96_t * vmc96, char * version )
 {
 	int ret = 0;
 
-	ret = vmc96_send_message( vmc96,
-	                          VMC96_CONTROLLER_MOTOR_ARRAY,
-	                          VMC96_COMMAND_KERNEL_VERSION );
+	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_KERNEL_VERSION );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
@@ -270,68 +258,62 @@ int vmc96_motor_get_version( VMC96_t * vmc96, char * version )
 
 int vmc96_motor_reset( VMC96_t * vmc96 )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_RESET );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_RESET );
 }
 
 
-int vmc96_motor_driver_setup( VMC96_t * vmc96, unsigned char mode )
+int vmc96_motor_status_request( VMC96_t * vmc96, VMC96_motor_array_status_t * status )
 {
-	return vmc96_send_message_ex( vmc96,
-	                              VMC96_CONTROLLER_MOTOR_ARRAY,
-	                              VMC96_COMMAND_MOTOR_DRIVER_SETUP,
-	                              &mode,
-	                              1,
-	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
-}
+	int ret = 0;
+	int i = 0;
+	
+	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_STATUS_REQUEST );
+	                           
+	if( ret != VMC96_SUCCESS )
+		return ret;
+	
+	if( vmc96->response.data_length <= 2 )
+		return VMC96_ERROR_RESPONSE_MALFORMED;
+		
+	if( vmc96->response.data[0] != VMC96_COMMAND_MOTOR_STATUS_REQUEST )
+		return VMC96_ERROR_RESPONSE_INVALID_SOURCE;
+		
+	status->current_ma = VMC96_GET_MOTOR_CURRENT_MA( vmc96->response.data[1] );
+	status->active_count = vmc96->response.data_length - 2;
+	
+	for( i = 0; i < vmc96->response.data_length - 2; i++ )
+	{
+		status->motors[ i ].col = VMC96_GET_MOTOR_COL( vmc96->response.data[ i + 2 ] );
+		status->motors[ i ].row = VMC96_GET_MOTOR_ROW( vmc96->response.data[ i + 2 ] );
+	}
 
-
-int vmc96_motor_status_request( VMC96_t * vmc96 )
-{
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_STATUS_REQUEST );
+	return VMC96_SUCCESS;
 }
 
 
 int vmc96_motor_scan_array( VMC96_t * vmc96 )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_SCAN_ARRAY );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_SCAN_ARRAY );
 }
 
 
 int vmc96_motor_stop_all( VMC96_t * vmc96 )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_STOP_ALL );
+	return vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_STOP_ALL );
 }
 
 
-int vmc96_motor_run( VMC96_t * vmc96, unsigned char id )
+int vmc96_motor_run( VMC96_t * vmc96, unsigned char row, unsigned char col )
 {
-	return vmc96_send_message_ex( vmc96,
-	                              VMC96_CONTROLLER_MOTOR_ARRAY,
-	                              VMC96_COMMAND_MOTOR_RUN,
-	                              &id,
-	                              1,
-	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
+	unsigned char data = VMC96_GET_MOTOR_ID( row, col );
+	return vmc96_send_message_ex( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_RUN, &data, 1 );
 }
 
 
-int vmc96_motor_pulse( VMC96_t * vmc96, unsigned char id, unsigned char duration_ms )
+int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1, unsigned char col2 )
 {
-	unsigned char data[2] = { id, duration_ms };
-	
-	return vmc96_send_message_ex( vmc96,
-	                              VMC96_CONTROLLER_MOTOR_ARRAY,
-	                              VMC96_COMMAND_MOTOR_GIVE_PULSE,
-	                              data,
-	                              2,
-	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
+	unsigned char data[2] = { VMC96_GET_MOTOR_ID( row, col1 ), VMC96_GET_MOTOR_ID( row, col2 ) };
+	return vmc96_send_message_ex( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_RUN, data, 2 );
 }
 
 
@@ -358,7 +340,7 @@ int vmc96_motor_opto_line_status( VMC96_t * vmc96, unsigned int * status  )
 
 
 /* ********************************************************************* */
-/* *                       GLOBAL COMMANDS                             * */
+/* *                 GLOBAL COMMANDS CONTROL FUNCTION                  * */
 /* ********************************************************************* */
 
 int vmc96_global_reset( VMC96_t * vmc96 )
@@ -369,34 +351,12 @@ int vmc96_global_reset( VMC96_t * vmc96 )
 	                              VMC96_CONTROLLER_GLOBAL_BROADCAST,
 	                              VMC96_COMMAND_GLOBAL_RESET,
 	                              &data,
-	                              1,
-	                              VMC96_LONG_RESPONSE_DELAY_US );
-}
-
-
-int vmc96_global_address_clash( VMC96_t * vmc96, char * listaddr, unsigned char * count )
-{
-	int ret = 0;
-
-	ret = vmc96_send_message_ex( vmc96,
-	                             VMC96_CONTROLLER_GLOBAL_BROADCAST,
-	                             VMC96_COMMAND_ADDRESS_CLASH,
-	                             NULL,
-	                             0,
-	                             VMC96_LONG_RESPONSE_DELAY_US );
-
-	if( ret != VMC96_SUCCESS )
-		return ret;
-
-	memcpy( listaddr, vmc96->response.data, vmc96->response.data_length );
-	*count = vmc96->response.data_length;
-
-	return VMC96_SUCCESS;
+	                              1 );
 }
 
 
 /* ********************************************************************* */
-/* *                        MESSAGE CONTROL                            * */
+/* *                    MESSAGE CONTROL FUNCTIONS                      * */
 /* ********************************************************************* */
 
 static char vmc96_calculate_checksum( unsigned char * buf, size_t buflen )
@@ -497,7 +457,7 @@ static int vmc96_send_raw_message( VMC96_t * vmc96 )
 	if( ret < 0 )
 		return VMC96_ERROR_FTDI_WRITE_DATA;
 
-	usleep( vmc96->response_delay_us );
+	usleep( VMC96_DEFAULT_RESPONSE_DELAY_US);
 
 	ret = ftdi_read_data( vmc96->ftdi, vmc96->response.raw, VMC96_MESSAGE_MAX_LEN );
 
@@ -512,17 +472,16 @@ static int vmc96_send_raw_message( VMC96_t * vmc96 )
 
 static int vmc96_send_message( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd )
 {
-	return vmc96_send_message_ex( vmc96, id_cntlr, cmd, NULL, 0, VMC96_DEFAULT_RESPONSE_DELAY_US );
+	return vmc96_send_message_ex( vmc96, id_cntlr, cmd, NULL, 0 );
 }
 
 
-static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd, unsigned char * data, unsigned char datalen, unsigned long resp_delay )
+static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsigned char cmd, unsigned char * data, unsigned char datalen )
 {
 	int ret = 0;
 
 	vmc96->message.id_controller = id_cntlr;
 	vmc96->message.command = cmd;
-	vmc96->response_delay_us = resp_delay;
 
 	if( (data != NULL) && (datalen > 0) )
 	{
