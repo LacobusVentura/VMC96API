@@ -33,8 +33,28 @@
 #define VMC96_ERROR_RESPONSE_INVALID_SOURCE    (204)
 #define VMC96_ERROR_RESPONSE_INVALID_LENGTH    (205)
 
+#define VMC96_MOTOR_ARRAY_ROWS_COUNT           (8)
+#define VMC96_MOTOR_ARRAY_COLUMNS_COUNT        (12)
+
 
 typedef struct VMC96_s VMC96_t;
+typedef struct VMC96_motor_array_status_s VMC96_motor_array_status_t;
+typedef struct VMC96_motor_coordinates_s VMC96_motor_coordinates_t;
+
+
+struct VMC96_motor_coordinates_s
+{
+	unsigned char col;
+	unsigned char row;
+};
+
+
+struct VMC96_motor_array_status_s
+{
+	VMC96_motor_coordinates_t motors[ VMC96_MOTOR_ARRAY_ROWS_COUNT ];
+	unsigned char active_count;
+	unsigned int current_ma;
+};
 
 
 #ifdef __cplusplus
@@ -48,7 +68,6 @@ extern "C"
 	const char * vmc96_get_error_code_string( int cod );
 
 	int vmc96_global_reset( VMC96_t * vmc96 );
-	int vmc96_global_address_clash( VMC96_t * vmc96, char * listaddr, unsigned char * count );
 
 	int vmc96_relay_ping( VMC96_t * vmc96, unsigned char	 id );
 	int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version );
@@ -57,14 +76,14 @@ extern "C"
 
 	int vmc96_motor_ping( VMC96_t * vmc96 );
 	int vmc96_motor_get_version( VMC96_t * vmc96, char * version );
-	int vmc96_motor_driver_setup( VMC96_t * vmc96, unsigned char mode );
 	int vmc96_motor_reset( VMC96_t * vmc96 );
 
-	int vmc96_motor_status_request( VMC96_t * vmc96 );
+	int vmc96_motor_status_request( VMC96_t * vmc96, VMC96_motor_array_status_t * status );
 	int vmc96_motor_scan_array( VMC96_t * vmc96 );
 	int vmc96_motor_stop_all( VMC96_t * vmc96 );
-	int vmc96_motor_run( VMC96_t * vmc96, unsigned char id );
-	int vmc96_motor_pulse( VMC96_t * vmc96, unsigned char id, unsigned char duration_ms );
+	int vmc96_motor_run( VMC96_t * vmc96, unsigned char row, unsigned char col );
+	int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1, unsigned char col2 );
+
 	int vmc96_motor_opto_line_status( VMC96_t * vmc96, unsigned int * status  );
 
 #ifdef __cplusplus
