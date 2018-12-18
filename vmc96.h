@@ -63,9 +63,9 @@ extern "C"
 	int vmc96_motor_status_request( VMC96_t * vmc96 );
 	int vmc96_motor_scan_array( VMC96_t * vmc96 );
 	int vmc96_motor_stop_all( VMC96_t * vmc96 );
-	int vmc96_motor_run( VMC96_t * vmc96 );
-	int vmc96_motor_pulse( VMC96_t * vmc96 );
-	int vmc96_motor_opto_line_status( VMC96_t * vmc96 );
+	int vmc96_motor_run( VMC96_t * vmc96, unsigned char id );
+	int vmc96_motor_pulse( VMC96_t * vmc96, unsigned char id, unsigned char duration_ms );
+	int vmc96_motor_opto_line_status( VMC96_t * vmc96, unsigned int * status  );
 
 #ifdef __cplusplus
 }
