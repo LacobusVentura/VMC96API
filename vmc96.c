@@ -132,6 +132,26 @@ static void vmc96_dump_buffer( FILE * fp, const char * desc, unsigned char * buf
 #endif
 }
 
+static void vmc96_dump_bit_buffer( FILE * fp, const char * desc, unsigned char * buf, size_t len )
+{
+#ifdef _DEBUG
+	size_t i = 0;
+	unsigned char j = 0;
+
+	fprintf( fp, "[DEBUG] %s (%ld): ", desc, len );
+
+	for( i = 0; i < len; i++ )
+		for( j = 0; j < 8; j++ )
+			fprintf( fp, "%d", ( buf[i] << j ) ? 1 : 0 );
+
+	fprintf( fp, "\n" );
+#else
+	(void) fp;
+	(void) desc;
+	(void) buf;
+	(void) len;
+#endif
+}
 
 /* ********************************************************************* */
 /* *                        ERROR CONTROL                              * */
@@ -291,27 +311,49 @@ int vmc96_motor_stop_all( VMC96_t * vmc96 )
 }
 
 
-int vmc96_motor_run( VMC96_t * vmc96 )
+int vmc96_motor_run( VMC96_t * vmc96, unsigned char id )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_RUN );
+	return vmc96_send_message_ex( vmc96,
+	                              VMC96_CONTROLLER_MOTOR_ARRAY,
+	                              VMC96_COMMAND_MOTOR_RUN,
+	                              &id,
+	                              1,
+	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
 }
 
 
-int vmc96_motor_pulse( VMC96_t * vmc96 )
+int vmc96_motor_pulse( VMC96_t * vmc96, unsigned char id, unsigned char duration_ms )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_GIVE_PULSE );
+	unsigned char data[2] = { id, duration_ms };
+	
+	return vmc96_send_message_ex( vmc96,
+	                              VMC96_CONTROLLER_MOTOR_ARRAY,
+	                              VMC96_COMMAND_MOTOR_GIVE_PULSE,
+	                              data,
+	                              2,
+	                              VMC96_DEFAULT_RESPONSE_DELAY_US );
 }
 
 
-int vmc96_motor_opto_line_status( VMC96_t * vmc96 )
+int vmc96_motor_opto_line_status( VMC96_t * vmc96, unsigned int * status  )
 {
-	return vmc96_send_message( vmc96,
-	                           VMC96_CONTROLLER_MOTOR_ARRAY,
-	                           VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS );
+	int ret = 0;
+	
+	*status = 0;
+	
+	ret = vmc96_send_message( vmc96,
+	                          VMC96_CONTROLLER_MOTOR_ARRAY,
+	                          VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS );
+	                                                    
+	if( ret != VMC96_SUCCESS )
+		return ret;
+		
+	if( vmc96->response.data_length == 5 )
+		memcpy( status, &vmc96->response.data[1], vmc96->response.data_length - 1 );
+		
+	vmc96_dump_bit_buffer( stdout, "OPTO LINE STATUS", (unsigned char*)status, sizeof(unsigned int) );
+	
+	return VMC96_SUCCESS;
 }
 
 
@@ -422,10 +464,10 @@ static int vmc96_parse_raw_response( VMC96_t * vmc96 )
 			if( vmc96->response.raw[2] != vmc96->response.raw_length )
 				return VMC96_ERROR_RESPONSE_INVALID_LENGTH;
 
-			if( vmc96->response.raw[3] != VMC96_POSITIVE_ACK_CODE )
-				return VMC96_ERROR_RESPONSE_NEGATIVE_ACK;
+			//if( vmc96->response.raw[3] != VMC96_POSITIVE_ACK_CODE )
+			//	return VMC96_ERROR_RESPONSE_NEGATIVE_ACK;
 
-			if( vmc96->response.raw[4] != vmc96_calculate_checksum( vmc96->response.raw, 4 ) )
+			if( vmc96->response.raw[ vmc96->response.raw_length - 1 ] != vmc96_calculate_checksum( vmc96->response.raw, vmc96->response.raw_length - 1 ) )
 				return VMC96_ERROR_RESPONSE_INVALID_CHECKSUM;
 
 			break;
