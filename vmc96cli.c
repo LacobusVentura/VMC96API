@@ -426,11 +426,19 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						return VMC96CLI_ERROR_COMMAND_FAILED;
 					}
 
-					fprintf( stdout, "Opto Line Sensor [32 samples, 40ms/sample, 1.28s]:\n");
+					fprintf( stdout, "Opto Line Sensor Status:\n\n");
 
-					fprintf( stdout, "	Hexadecimal: 0x%04X\n", status );
+					fprintf( stdout, "	Samples per block: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK );
+					fprintf( stdout, "	Total Samples: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK  );
+					fprintf( stdout, "	Time per Sample: %gms\n", VMC96_OPTO_LINE_SAMPLE_LENGTH_US / 1000.0 );
+					fprintf( stdout, "	Time per Block: %gs\n", VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_US / 1000000.0 );
+					fprintf( stdout, "	Total time: %gs\n\n", (VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_US / 1000000.0));
 
-					fprintf( stdout, "	Binary: ");
+					fprintf( stdout, "	Hexadecimal:\n" );
+					fprintf( stdout, "		0x%08X\n",  status );
+					fprintf( stdout, "	Binary:\n");
+
+					fprintf( stdout, "		");
 
 					for( i = 0; i < 32; i++ )
 					{
@@ -440,7 +448,7 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						fprintf( stdout, "%d",  (status >> i) & 0x1 );
 					}
 
-					fprintf( stdout, "\n" );
+					fprintf( stdout, "\n\n" );
 
 					return VMC96CLI_SUCCESS;
 				}
