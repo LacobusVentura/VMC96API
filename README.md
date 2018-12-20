@@ -1,4 +1,4 @@
-## VMC96 APPLICATION PROGRAMMING INTERFACE (API)
+# VMC96 APPLICATION PROGRAMMING INTERFACE (API)
 
 A very simple Application Programming Interface (API) to control **VMC96** Vending Machine Controller Boards written in C language.
 
@@ -8,7 +8,7 @@ A very simple Application Programming Interface (API) to control **VMC96** Vendi
 
 See more: http://www.moneyflex.net/vmc96/
 
-## VMC96 Command Line Interface (CLI)
+# VMC96 Command Line Interface (CLI)
 
 A Command Line Interface (CLI) utility to control VMC96 Vending Machine Controller Boards.
 
