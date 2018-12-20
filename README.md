@@ -12,59 +12,59 @@ See more: http://www.moneyflex.net/vmc96/
 
 A Command Line Interface (CLI) utility to control VMC96 Vending Machine Controller Boards.
 
-Global Reset:
+**Global Reset:**
 ```
 $ vmc96cli --controller=GLOBAL --command=RESET
 ```
-Relay Ping:
+**Relay Ping:**
 ```
 $ vmc96cli --controller=[RELAY1|RELAY2] --command=PING
 ```
-Relay Reset:
+**Relay Reset:**
 ```
 $ vmc96cli --controller=[RELAY1|RELAY2] --command=RESET
 ```
-Relay Controller Version:
+**Relay Controller Version:**
 ```
 $ vmc96cli --controller=[RELAY1|RELAY2] --command=VERSION
 ```
-Relay State Control:
+**Relay State Control:**
 ```
-	$ vmc96cli --controller=[RELAY1|RELAY2] --command=CONTROL --state=[0|1]
+$ vmc96cli --controller=[RELAY1|RELAY2] --command=CONTROL --state=[0|1]
 ```
-Motor Array Ping:
+**Motor Array Ping:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=PING
+$ vmc96cli --controller=MOTOR_ARRAY --command=PING
 ```
-Motor Array Reset:
+**Motor Array Reset:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=RESET
+$ vmc96cli --controller=MOTOR_ARRAY --command=RESET
 ```
-Motor Array Controller Version:
+**Motor Array Controller Version:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=VERSION
+$ vmc96cli --controller=MOTOR_ARRAY --command=VERSION
 ```
-Motor Array - Run Single Motor:
+**Motor Array - Run Single Motor:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=RUN --row=[0-11] --column=[0-7]
+$ vmc96cli --controller=MOTOR_ARRAY --command=RUN --row=[0-11] --column=[0-7]
 ```
-Motor Array - Run Motor Pair:
+**Motor Array - Run Motor Pair:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=RUN_PAIR --row=[0-11] --column1=[0-7] --column2=[0-7]
+$ vmc96cli --controller=MOTOR_ARRAY --command=RUN_PAIR --row=[0-11] --column1=[0-7] --column2=[0-7]
 ```
-Motor Array - Status:
+**Motor Array - Status:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=STATUS
+$ vmc96cli --controller=MOTOR_ARRAY --command=STATUS
 ```
-Motor Array - Stop All Motors:
+**Motor Array - Stop All Motors:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=STOP_ALL
+$ vmc96cli --controller=MOTOR_ARRAY --command=STOP_ALL
 ```
-Motor Array - Opto-Sensor Status:
+**Motor Array - Opto-Sensor Status:**
 ```
-	$ vmc96cli --controller=MOTOR_ARRAY --command=OPTO_LINE_STATUS
+$ vmc96cli --controller=MOTOR_ARRAY --command=OPTO_LINE_STATUS
 ```
-Show Usage:
+**Show Usage:**
 ```
-	$ vmc96cli --help
+$ vmc96cli --help
 ```
