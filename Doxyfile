@@ -1,1 +1,41 @@
+# **********************************************************************
+# *                             VMC96 API                              *
+# **********************************************************************
 
+PROJECT_NAME           = VMC96 Board Application Programming Interface (API)
+
+PROJECT_BRIEF          = "Source Code Documentation"
+PROJECT_LOGO           = ./images/icon.png
+
+IMAGE_PATH             = ./images/
+
+BUILTIN_STL_SUPPORT    = NO
+
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+OUTPUT_DIRECTORY       = ./doc
+OUTPUT_LANGUAGE        = English
+
+WARNINGS               = YES
+
+SOURCE_BROWSER         = YES
+REFERENCES_RELATION    = YES
+REFERENCED_BY_RELATION = YES
+
+EXTRACT_ALL            = YES
+HAVE_DOT               = YES
+UML_LOOK               = YES
+UML_LIMIT_NUM_FIELDS   = 100
+EXTRACT_PRIVATE        = YES
+HIDE_UNDOC_MEMBERS     = NO
+HIDE_UNDOC_CLASSES     = NO
+
+SEARCHENGINE           = NO
+
+FILE_PATTERNS          = *.c *.h
+RECURSIVE              = YES
+
+INPUT = ./vmc96api.h ./vmc96api.c ./vmc96cli.c
+
+# **********************************************************************
+# eof #
