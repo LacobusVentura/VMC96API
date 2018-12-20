@@ -1,0 +1,8 @@
+digraph "VMC96_s"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{VMC96_s\n|+ ftdi\l+ ftdi_version\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +message\n+response" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{vmc96_message_s\n|+ id_controller\l+ command\l+ data\l+ data_length\l+ raw\l+ raw_length\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structvmc96__message__s.html"];
+}
