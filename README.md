@@ -1,4 +1,4 @@
-# VMC96 API
+# VMC96 APPLICATION PROGRAMMING INTERFACE (API)
 
 An Application Programming Interface (API) to control **VMC96** Vending Machine Controller Boards.
 
