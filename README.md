@@ -1,6 +1,6 @@
 # VMC96 APPLICATION PROGRAMMING INTERFACE (API)
 
-An Application Programming Interface (API) to control **VMC96** Vending Machine Controller Boards written in C.
+A very simple Application Programming Interface (API) to control **VMC96** Vending Machine Controller Boards written in C.
 
 ![VMC96 Board](https://raw.githubusercontent.com/LacobusVentura/vmc96/master/images/VMC96-Front.jpg)
 
