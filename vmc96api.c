@@ -4,7 +4,7 @@
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec/2019
 
-    VMC96 Module - http://www.moneyflex.net/vmc96/
+	VMC96 Module - http://www.moneyflex.net/vmc96/
 */
 
 #include <stdio.h>
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <libftdi1/ftdi.h>
 
-#include "vmc96.h"
+#include "vmc96api.h"
 
 
 /* ********************************************************************* */
@@ -33,7 +33,7 @@
 #define VMC96_MESSAGE_DATA_MAX_LEN                        (250)
 #define VMC96_POSITIVE_ACK_CODE                           (0x00)
 #define VMC96_NEGATIVE_ACK_CODE                           (0xFF)
-#define VMC96_DEFAULT_RESPONSE_DELAY_US                   (20000L)  /* 20 ms*/
+#define VMC96_DEFAULT_RESPONSE_DELAY_US                   (20000L)  /* 20 ms  */
 #define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)     /* 500 mA */
 
 /* VMC96 AVAILABLE CONTROLLERS */
@@ -304,20 +304,19 @@ int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1
 }
 
 
-int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status  )
+int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status )
 {
 	int ret = 0;
+
+	*status = 0;
 
 	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
 
-	*status = 0;
-
 	if( vmc96->response.data_length == 5 )
-		memcpy( status, &vmc96->response.data[1], vmc96->response.data_length - 1 );
-
+		memcpy( &status, &vmc96->response.data[1], vmc96->response.data_length - 1 );
 
 	return VMC96_SUCCESS;
 }
