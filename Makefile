@@ -1,4 +1,3 @@
-
 # **********************************************************************
 # *                             VMC96 API                              *
 # **********************************************************************
@@ -14,7 +13,7 @@ INCPATH= -I. -I/usr/include
 
 ifeq ($(DEBUG),1)
     DEFINES+= -D_DEBUG
-    CFLAGS= -c -O0 -g -Wall -Wextra -no-Wimplicit-declaration $(INCPATH) $(DEFINES)
+    CFLAGS= -c -O0 -g -Wall -Wextra $(INCPATH) $(DEFINES)
 endif
 
 ifeq ($(DEBUG),)
