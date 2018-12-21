@@ -4,7 +4,7 @@
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec/2019
 
-	VMC96 Module - http://www.moneyflex.net/vmc96/
+	VMC96 Board Module: http://www.moneyflex.net/vmc96/
 */
 
 #include <stdio.h>
