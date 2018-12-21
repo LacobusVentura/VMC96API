@@ -4,7 +4,7 @@
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec/2019
 
-	VMC96 Module - http://www.moneyflex.net/vmc96/
+	VMC96 Board Module: http://www.moneyflex.net/vmc96/
 */
 
 
@@ -427,13 +427,11 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 					}
 
 					fprintf( stdout, "Opto Line Sensor Status:\n\n");
-
 					fprintf( stdout, "	Samples per block: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK );
 					fprintf( stdout, "	Total Samples: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK  );
 					fprintf( stdout, "	Time per Sample: %gms\n", VMC96_OPTO_LINE_SAMPLE_LENGTH_US / 1000.0 );
 					fprintf( stdout, "	Time per Block: %gs\n", VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_US / 1000000.0 );
 					fprintf( stdout, "	Total time: %gs\n\n", (VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_US / 1000000.0));
-
 					fprintf( stdout, "	Hexadecimal:\n" );
 					fprintf( stdout, "		0x%08X\n",  status );
 					fprintf( stdout, "	Binary:\n");
