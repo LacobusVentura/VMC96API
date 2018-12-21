@@ -22,34 +22,41 @@
 /* ********************************************************************* */
 
 /* CONTROLLERS */
-#define VMC96CLI_CONTROLLER_GLOBAL                   (1)
-#define VMC96CLI_CONTROLLER_RELAY1                   (2)
-#define VMC96CLI_CONTROLLER_RELAY2                   (3)
-#define VMC96CLI_CONTROLLER_MOTOR_ARRAY              (4)
-#define VMC96CLI_CONTROLLER_INVALID                  (-1)
-#define VMC96CLI_CONTROLLER_NOT_SPECIFIED            (-2)
+#define VMC96CLI_CONTROLLER_GLOBAL                        (1)
+#define VMC96CLI_CONTROLLER_RELAY1                        (2)
+#define VMC96CLI_CONTROLLER_RELAY2                        (3)
+#define VMC96CLI_CONTROLLER_MOTOR_ARRAY                   (4)
+#define VMC96CLI_CONTROLLER_INVALID                       (-1)
+#define VMC96CLI_CONTROLLER_NOT_SPECIFIED                 (-2)
 
 /* COMMANDS */
-#define VMC96CLI_COMMAND_RESET                       (1)
-#define VMC96CLI_COMMAND_PING                        (2)
-#define VMC96CLI_COMMAND_VERSION                     (3)
-#define VMC96CLI_COMMAND_RELAY_CONTROL               (4)
-#define VMC96CLI_COMMAND_OPTO_LINE_STATUS            (5)
-#define VMC96CLI_COMMAND_MOTOR_RUN                   (6)
-#define VMC96CLI_COMMAND_MOTOR_RUN_PAIR              (7)
-#define VMC96CLI_COMMAND_MOTOR_STOP_ALL              (8)
-#define VMC96CLI_COMMAND_MOTOR_STATUS                (9)
-#define VMC96CLI_COMMAND_INVALID                     (-1)
-#define VMC96CLI_COMMAND_NOT_SPECIFIED               (-2)
+#define VMC96CLI_COMMAND_RESET                            (1)
+#define VMC96CLI_COMMAND_PING                             (2)
+#define VMC96CLI_COMMAND_VERSION                          (3)
+#define VMC96CLI_COMMAND_RELAY_CONTROL                    (4)
+#define VMC96CLI_COMMAND_OPTO_LINE_STATUS                 (5)
+#define VMC96CLI_COMMAND_MOTOR_RUN                        (6)
+#define VMC96CLI_COMMAND_MOTOR_RUN_PAIR                   (7)
+#define VMC96CLI_COMMAND_MOTOR_STOP_ALL                   (8)
+#define VMC96CLI_COMMAND_MOTOR_STATUS                     (9)
+#define VMC96CLI_COMMAND_INVALID                          (-1)
+#define VMC96CLI_COMMAND_NOT_SPECIFIED                    (-2)
 
 /* STATUS */
-#define VMC96CLI_SUCCESS                             (0)
-#define VMC96CLI_ERROR_CONTROLLER_INVALID            (-1)
-#define VMC96CLI_ERROR_CONTROLLER_NOT_SPECIFIED      (-2)
-#define VMC96CLI_ERROR_COMMAND_INVALID               (-3)
-#define VMC96CLI_ERROR_COMMAND_NOT_SPECIFIED         (-4)
-#define VMC96CLI_ERROR_COMMAND_FAILED                (-5)
+#define VMC96CLI_SUCCESS                                  (0)
+#define VMC96CLI_ERROR_COMMAND_FAILED                     (-1)
+#define VMC96CLI_ERROR_ARGS_CONTROLLER_INVALID            (-2)
+#define VMC96CLI_ERROR_ARGS_CONTROLLER_NOT_SPECIFIED      (-3)
+#define VMC96CLI_ERROR_ARGS_COMMAND_INVALID               (-4)
+#define VMC96CLI_ERROR_ARGS_COMMAND_NOT_SPECIFIED         (-5)
+#define VMC96CLI_ERROR_ARGS_RELAY_STATE                   (-6)
+#define VMC96CLI_ERROR_ARGS_MOTOR_ROW                     (-7)
+#define VMC96CLI_ERROR_ARGS_MOTOR_COLUMN                  (-8)
+#define VMC96CLI_ERROR_ARGS_MOTOR_COLUMN1                 (-9)
+#define VMC96CLI_ERROR_ARGS_MOTOR_COLUMN2                 (-10)
 
+/* CONSTANTS */
+#define VMC96CLI_ARGUMENT_NOT_INITIALIZED                 (-1)
 
 /* ********************************************************************* */
 /* *                        STRUCTS AND DATA TYPES                     * */
@@ -61,11 +68,11 @@ struct vmc96cli_arguments_s
 {
 	int controller;
 	int command;
-	unsigned char state;
-	unsigned char col;
-	unsigned char row;
-	unsigned char col1;
-	unsigned char col2;
+	int state;
+	int col;
+	int row;
+	int col1;
+	int col2;
 };
 
 
@@ -78,6 +85,7 @@ static void vmc96cli_show_usage( int argc, char ** argv );
 static int vmc96cli_get_cntrl_code( const char * cntrl );
 static int vmc96cli_get_cmd_code( const char * cmd );
 static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args );
+static int vmc96cli_proccess_arguments( int argc, char ** argv, vmc96cli_arguments_t * args );
 
 
 /* ********************************************************************* */
@@ -88,13 +96,18 @@ static const char * vmc96cli_get_error_code_string( int cod )
 {
 	switch(cod)
 	{
-		case VMC96CLI_SUCCESS                        : return "Success."; break;
-		case VMC96CLI_ERROR_CONTROLLER_INVALID       : return "Invalid Controller (--controller)."; break;
-		case VMC96CLI_ERROR_COMMAND_INVALID          : return "Invalid Command (--command)."; break;
-		case VMC96CLI_ERROR_CONTROLLER_NOT_SPECIFIED : return "Controller not specified. (--controller)"; break;
-		case VMC96CLI_ERROR_COMMAND_NOT_SPECIFIED    : return "Command not especified (--command)."; break;
-		case VMC96CLI_ERROR_COMMAND_FAILED           : return "Command failed."; break;
-		default                                      : return "Unknown error."; break;
+		case VMC96CLI_SUCCESS                             : return "Success."; break;
+		case VMC96CLI_ERROR_COMMAND_FAILED                : return "Command failed."; break;
+		case VMC96CLI_ERROR_ARGS_CONTROLLER_INVALID       : return "Invalid Controller (--controller)."; break;
+		case VMC96CLI_ERROR_ARGS_COMMAND_INVALID          : return "Invalid Command (--command)."; break;
+		case VMC96CLI_ERROR_ARGS_CONTROLLER_NOT_SPECIFIED : return "Controller not specified. (--controller)"; break;
+		case VMC96CLI_ERROR_ARGS_COMMAND_NOT_SPECIFIED    : return "Command not especified (--command)."; break;
+		case VMC96CLI_ERROR_ARGS_RELAY_STATE              : return "Relay state not especified (--state)."; break;
+		case VMC96CLI_ERROR_ARGS_MOTOR_ROW                : return "Motor row coordinate not especified (--row)."; break;
+		case VMC96CLI_ERROR_ARGS_MOTOR_COLUMN             : return "Motor column coordinate not especified (--column)."; break;
+		case VMC96CLI_ERROR_ARGS_MOTOR_COLUMN1            : return "Motor pair first column coordinate not especified (--column1)."; break;
+		case VMC96CLI_ERROR_ARGS_MOTOR_COLUMN2            : return "Motor pair second column coordinate not especified (--column2)."; break;
+		default                                           : return "Unknown error."; break;
 	}
 }
 
@@ -183,16 +196,16 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 	int ret = 0;
 
 	if( args->controller == VMC96CLI_CONTROLLER_NOT_SPECIFIED )
-		return VMC96CLI_ERROR_CONTROLLER_NOT_SPECIFIED;
+		return VMC96CLI_ERROR_ARGS_CONTROLLER_NOT_SPECIFIED;
 
 	if( args->controller == VMC96CLI_CONTROLLER_INVALID )
-		return VMC96CLI_ERROR_CONTROLLER_INVALID;
+		return VMC96CLI_ERROR_ARGS_CONTROLLER_INVALID;
 
 	if( args->command == VMC96CLI_COMMAND_NOT_SPECIFIED )
-		return VMC96CLI_ERROR_COMMAND_NOT_SPECIFIED;
+		return VMC96CLI_ERROR_ARGS_COMMAND_NOT_SPECIFIED;
 
 	if( args->command == VMC96CLI_COMMAND_INVALID )
-		return VMC96CLI_ERROR_COMMAND_INVALID;
+		return VMC96CLI_ERROR_ARGS_COMMAND_INVALID;
 
 	switch( args->controller )
 	{
@@ -218,7 +231,7 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				default:
 				{
-					return VMC96CLI_ERROR_COMMAND_INVALID;
+					return VMC96CLI_ERROR_ARGS_COMMAND_INVALID;
 				}
 			}
 		}
@@ -278,6 +291,9 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				case VMC96CLI_COMMAND_RELAY_CONTROL :
 				{
+					if( args->state == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_RELAY_STATE;
+
 					ret = vmc96_relay_control( vmc96, (args->controller == VMC96CLI_CONTROLLER_RELAY1) ? 0 : 1, args->state );
 
 					if( ret != VMC96_SUCCESS )
@@ -291,7 +307,7 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				default:
 				{
-					return VMC96CLI_ERROR_COMMAND_INVALID;
+					return VMC96CLI_ERROR_ARGS_COMMAND_INVALID;
 				}
 			}
 		}
@@ -351,6 +367,12 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				case VMC96CLI_COMMAND_MOTOR_RUN :
 				{
+					if( args->row == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_MOTOR_ROW;
+
+					if( args->col == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_MOTOR_COLUMN;
+
 					ret = vmc96_motor_run( vmc96, args->row, args->col );
 
 					if( ret != VMC96_SUCCESS )
@@ -364,6 +386,15 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				case VMC96CLI_COMMAND_MOTOR_RUN_PAIR :
 				{
+					if( args->row == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_MOTOR_ROW;
+
+					if( args->col1 == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_MOTOR_COLUMN1;
+
+					if( args->col2 == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
+						return VMC96CLI_ERROR_ARGS_MOTOR_COLUMN2;
+
 					ret = vmc96_motor_pair_run( vmc96, args->row, args->col1, args->col2 );
 
 					if( ret != VMC96_SUCCESS )
@@ -456,28 +487,23 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 
 				default:
 				{
-					return VMC96CLI_ERROR_COMMAND_INVALID;
+					return VMC96CLI_ERROR_ARGS_COMMAND_INVALID;
 				}
 			}
 		}
 
 		default:
 		{
-			return VMC96CLI_ERROR_CONTROLLER_INVALID;
+			return VMC96CLI_ERROR_ARGS_CONTROLLER_INVALID;
 		}
 	}
 }
 
 
-/* ********************************************************************* */
-/* *                                MAIN                               * */
-/* ********************************************************************* */
-int main( int argc, char ** argv )
+static int vmc96cli_proccess_arguments( int argc, char ** argv, vmc96cli_arguments_t * args )
 {
 	int ret = 0;
 	int index = 0;
-	vmc96cli_arguments_t args;
-	VMC96_t * vmc96 = NULL;
 
 	static struct option options[] =
 	{
@@ -492,35 +518,55 @@ int main( int argc, char ** argv )
 		{0,             0,                 0,   0  }
 	};
 
-	memset( &args, 0, sizeof(vmc96cli_arguments_t) );
-	args.controller = vmc96cli_get_cntrl_code("");
-	args.command = vmc96cli_get_cmd_code("");
+	args->controller = vmc96cli_get_cntrl_code("");
+	args->command = vmc96cli_get_cmd_code("");
+	args->state = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
+	args->row = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
+	args->col = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
+	args->col1 = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
+	args->col2 = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
 
 	while(true)
 	{
 		ret = getopt_long( argc, argv, "a:b:c:d:e:f:g:h", options, &index );
 
 		if( ret == -1 )
-			break;
+			return VMC96CLI_SUCCESS;
 
 		switch( ret )
 		{
-			case 'a' : args.controller = vmc96cli_get_cntrl_code( optarg ); break;
-			case 'b' : args.command = vmc96cli_get_cmd_code( optarg ); break;
-			case 'c' : args.state = atoi( optarg ); break;
-			case 'd' : args.row = atoi( optarg ); break;
-			case 'e' : args.col = atoi( optarg ); break;
-			case 'f' : args.col1 = atoi( optarg ); break;
-			case 'g' : args.col2 = atoi( optarg ); break;
+			case 'a' : args->controller = vmc96cli_get_cntrl_code( optarg ); break;
+			case 'b' : args->command = vmc96cli_get_cmd_code( optarg ); break;
+			case 'c' : args->state = atoi( optarg ); break;
+			case 'd' : args->row = atoi( optarg ); break;
+			case 'e' : args->col = atoi( optarg ); break;
+			case 'f' : args->col1 = atoi( optarg ); break;
+			case 'g' : args->col2 = atoi( optarg ); break;
 
 			case 'h' :
 				vmc96cli_show_usage( argc, argv );
-				return EXIT_SUCCESS;
+				return -1;
 
-			default:
-				return EXIT_FAILURE;
+			default :
+				return -1;
 		}
 	}
+}
+
+
+/* ********************************************************************* */
+/* *                                MAIN                               * */
+/* ********************************************************************* */
+int main( int argc, char ** argv )
+{
+	int ret = 0;
+	vmc96cli_arguments_t args;
+	VMC96_t * vmc96 = NULL;
+
+	ret = vmc96cli_proccess_arguments( argc, argv, &args );
+
+	if( ret != VMC96CLI_SUCCESS )
+		return EXIT_FAILURE;
 
 	ret = vmc96_initialize( &vmc96 );
 
