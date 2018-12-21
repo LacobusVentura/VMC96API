@@ -502,11 +502,16 @@ static int vmc96cli_proccess_arguments( int argc, char ** argv, vmc96cli_argumen
 	static struct option options[] =
 	{
 		{"controller",  required_argument, 0,  'a' },
+		{"cntlr",       required_argument, 0,  'a' },
 		{"command",     required_argument, 0,  'b' },
+		{"cmd",         required_argument, 0,  'b' },
 		{"state",       required_argument, 0,  'c' },
 		{"row",         required_argument, 0,  'd' },
+		{"col",         required_argument, 0,  'e' },
 		{"column",      required_argument, 0,  'e' },
+		{"col1",        required_argument, 0,  'f' },
 		{"column1",     required_argument, 0,  'f' },
+		{"col2",        required_argument, 0,  'g' },
 		{"column2",     required_argument, 0,  'g' },
 		{"help",        no_argument,       0,  'h' },
 		{0,             0,                 0,   0  }
