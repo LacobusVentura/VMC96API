@@ -2,10 +2,10 @@
 # *                             VMC96 API                              *
 # **********************************************************************
 
-PROJECT_NAME           = VMC96 Board Application Programming Interface (API)
+PROJECT_NAME           = VMC96API
 
 PROJECT_BRIEF          = "Source Code Documentation"
-PROJECT_LOGO           = ./images/icon.png
+PROJECT_LOGO           = ./images/doc_icon.png
 
 IMAGE_PATH             = ./images/
 
