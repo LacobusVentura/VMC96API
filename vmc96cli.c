@@ -195,17 +195,11 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 {
 	int ret = 0;
 
-	if( args->controller == VMC96CLI_CONTROLLER_NOT_SPECIFIED )
+	if( args->controller == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
 		return VMC96CLI_ERROR_ARGS_CONTROLLER_NOT_SPECIFIED;
 
-	if( args->controller == VMC96CLI_CONTROLLER_INVALID )
-		return VMC96CLI_ERROR_ARGS_CONTROLLER_INVALID;
-
-	if( args->command == VMC96CLI_COMMAND_NOT_SPECIFIED )
+	if( args->command == VMC96CLI_ARGUMENT_NOT_INITIALIZED )
 		return VMC96CLI_ERROR_ARGS_COMMAND_NOT_SPECIFIED;
-
-	if( args->command == VMC96CLI_COMMAND_INVALID )
-		return VMC96CLI_ERROR_ARGS_COMMAND_INVALID;
 
 	switch( args->controller )
 	{
@@ -518,8 +512,8 @@ static int vmc96cli_proccess_arguments( int argc, char ** argv, vmc96cli_argumen
 		{0,             0,                 0,   0  }
 	};
 
-	args->controller = vmc96cli_get_cntrl_code("");
-	args->command = vmc96cli_get_cmd_code("");
+	args->controller = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
+	args->command = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
 	args->state = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
 	args->row = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
 	args->col = VMC96CLI_ARGUMENT_NOT_INITIALIZED;
