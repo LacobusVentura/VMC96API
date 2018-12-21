@@ -103,33 +103,33 @@ static void vmc96cli_show_usage( int argc, char ** argv )
 {
 	(void) argc;
 
-	printf( "Global Reset:\n\n" );
+	printf( "GLOBAL RESET:\n\n" );
 	printf( "	%s --controller=GLOBAL --command=RESET\n\n", argv[0] );
-	printf( "Relay Ping:\n\n" );
+	printf( "GENERAL PURPOSE RELAY - PING:\n\n" );
 	printf( "	%s --controller=[RELAY1|RELAY2] --command=PING\n\n", argv[0] );
-	printf( "Relay Reset:\n\n" );
+	printf( "GENERAL PURPOSE RELAY - RESET:\n\n" );
 	printf( "	%s --controller=[RELAY1|RELAY2] --command=RESET\n\n", argv[0] );
-	printf( "Relay Controller Version:\n\n" );
+	printf( "GENERAL PURPOSE RELAY - Get Version:\n\n" );
 	printf( "	%s --controller=[RELAY1|RELAY2] --command=VERSION\n\n", argv[0] );
-	printf( "Relay State Control:\n\n" );
+	printf( "GENERAL PURPOSE RELAY - State Control:\n\n" );
 	printf( "	%s --controller=[RELAY1|RELAY2] --command=CONTROL --state=[0|1]\n\n", argv[0] );
-	printf( "Motor Array Ping:\n\n" );
+	printf( "MOTOR ARRAY - PING:\n\n" );
 	printf( "	%s --controller=MOTOR_ARRAY --command=PING\n\n", argv[0] );
-	printf( "Motor Array Reset:\n\n" );
+	printf( "MOTOR ARRAY - RESET:\n\n" );
 	printf( "	%s --controller=MOTOR_ARRAY --command=RESET\n\n", argv[0] );
-	printf( "Motoer Array Controller Version:\n\n" );
+	printf( "MOTOR ARRAY - GET VERSION:\n\n" );
 	printf( "	%s --controller=MOTOR_ARRAY --command=VERSION\n\n", argv[0] );
-	printf( "Motor Array - Run Single Motor:\n\n" );
-	printf( "	%s --controller=MOTOR_ARRAY --command=RUN --row=[0-11] --column=[0-7]\n\n\n", argv[0] );
-	printf( "Motor Array - Run Motor Pair:\n\n" );
-	printf( "	%s --controller=MOTOR_ARRAY --command=RUN_PAIR --row=[0-11] --column1=[0-7] --column2=[0-7]\n\n\n", argv[0] );
-	printf( "Motor Array - Status:\n\n" );
-	printf( "	%s --controller=MOTOR_ARRAY --command=STATUS\n\n\n", argv[0] );
-	printf( "Motor Array - Stop All Motors:\n\n" );
-	printf( "	%s --controller=MOTOR_ARRAY --command=STOP_ALL\n\n\n", argv[0] );
-	printf( "Motor Array - Opto-Sensor Status:\n\n" );
-	printf( "	%s --controller=MOTOR_ARRAY --command=OPTO_LINE_STATUS\n\n\n", argv[0] );
-	printf( "Show Usage:\n\n" );
+	printf( "MOTOR ARRAY - RUN SINGLE MOTOR:\n\n" );
+	printf( "	%s --controller=MOTOR_ARRAY --command=RUN --row=[0-11] --column=[0-7]\n\n", argv[0] );
+	printf( "MOTOR ARRAY - RUN MOTOR PAIR:\n\n" );
+	printf( "	%s --controller=MOTOR_ARRAY --command=RUN_PAIR --row=[0-11] --column1=[0-7] --column2=[0-7]\n\n", argv[0] );
+	printf( "MOTOR ARRAY - GET STATUS:\n\n" );
+	printf( "	%s --controller=MOTOR_ARRAY --command=STATUS\n\n", argv[0] );
+	printf( "MOTOR ARRAY - STOP ALL MOTORS:\n\n" );
+	printf( "	%s --controller=MOTOR_ARRAY --command=STOP_ALL\n\n", argv[0] );
+	printf( "MOTOR ARRAY - GET OPTO-SENSOR STATUS:\n\n" );
+	printf( "	%s --controller=MOTOR_ARRAY --command=OPTO_LINE_STATUS\n\n", argv[0] );
+	printf( "SHOW USAGE:\n\n" );
 	printf( "	%s --help\n\n", argv[0] );
 }
 
@@ -401,14 +401,17 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						return VMC96CLI_ERROR_COMMAND_FAILED;
 					}
 
-					fprintf( stdout, "Active Motors Count: %d\n", status.active_count );
-					fprintf( stdout, "Total Current Drained: %dmA\n", status.current_ma );
+					fprintf( stdout, "Motor Array Status:\n");
+					fprintf( stdout, "	Active Motors Count: %d\n", status.active_count );
+					fprintf( stdout, "	Total Current Drained: %dmA\n", status.current_ma );
 
 					if( status.active_count > 0 )
-						fprintf( stdout, "Current Drained per Motor: %dmA\n", status.current_ma / status.active_count );
+						fprintf( stdout, "	Current Drained per Motor: %dmA\n", status.current_ma / status.active_count );
 
 					for( i = 0; i < status.active_count; i++ )
-						fprintf( stdout, "Motor(%d): col=%d row=%d\n", i, status.motors[i].col, status.motors[i].row );
+						fprintf( stdout, "	Motor(%d): col=%d row=%d\n", i, status.motors[i].col, status.motors[i].row );
+
+					fprintf( stdout, "\n" );
 
 					return VMC96CLI_SUCCESS;
 				}
@@ -515,7 +518,6 @@ int main( int argc, char ** argv )
 				return EXIT_SUCCESS;
 
 			default:
-				vmc96cli_show_usage( argc, argv );
 				return EXIT_FAILURE;
 		}
 	}
