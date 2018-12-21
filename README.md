@@ -12,6 +12,19 @@ See more: http://www.moneyflex.net/vmc96/
 
 A Command Line Interface (CLI) utility to control VMC96 Vending Machine Controller Boards.
 
+## Compiling
+
+**Release Mode:**
+``` 
+$ make
+```
+**Debug Mode:**
+```
+$ make -DEBUG
+```
+
+## Command Syntax
+
 **Global Reset:**
 ```
 $ vmc96cli --controller=GLOBAL --command=RESET
@@ -68,3 +81,6 @@ $ vmc96cli --controller=MOTOR_ARRAY --command=OPTO_LINE_STATUS
 ```
 $ vmc96cli --help
 ```
+## Author
+
+ This project is written and maintained by Tiago Ventura (*tiago.ventura(at)gmail.com*).
