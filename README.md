@@ -54,7 +54,7 @@ $ make
 ```
 **Debug Mode:**
 ```
-$ make -DEBUG
+$ make DEBUG=1
 ```
 
 ## Command Syntax
