@@ -4,9 +4,43 @@ A very simple Application Programming Interface (API) to control **VMC96** Vendi
 
 <p align="center"><img alt="VMC96 Board" src="https://raw.githubusercontent.com/LacobusVentura/vmc96/master/images/VMC96-Front.jpg" width="60%" height="60%"></p>
 
-**VMC96** is a gateway to conventional vending components and let them to be controlled by your application. It can drive 96 dispense motors in a 8x12 matrix and it is “Opto-eye Ready” for users to build their “Sure Vend” style of optical detection. It gives machine owners an edge to modernize their old machines.
+**VMC96** is a gateway to conventional vending components and let them to be controlled by your application. It can drive 96 dispense motors in a 8x12 matrix and it is “Opto-eye Ready” for users to build their “Sure Vend” style of optical detection. It gives machine owners an edge to modernize their old machines. (See more: http://www.moneyflex.net/vmc96/)
 
-See more: http://www.moneyflex.net/vmc96/
+## Interface Functions
+
+```C
+int vmc96_initialize( VMC96_t ** vmc96 );
+
+void vmc96_finish( VMC96_t * vmc96 );
+
+const char * vmc96_get_error_code_string( int cod );
+
+int vmc96_global_reset( VMC96_t * vmc96 );
+
+int vmc96_relay_ping( VMC96_t * vmc96, unsigned char id );
+
+int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version );
+
+int vmc96_relay_reset( VMC96_t * vmc96, unsigned char id );
+
+int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, bool state );
+
+int vmc96_motor_ping( VMC96_t * vmc96 );
+
+int vmc96_motor_get_version( VMC96_t * vmc96, char * version );
+
+int vmc96_motor_reset( VMC96_t * vmc96 );
+
+int vmc96_motor_get_status( VMC96_t * vmc96, VMC96_motor_array_status_t * status );
+
+int vmc96_motor_stop_all( VMC96_t * vmc96 );
+
+int vmc96_motor_run( VMC96_t * vmc96, unsigned char row, unsigned char col );
+
+int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1, unsigned char col2 );
+
+int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status );
+```
 
 # VMC96 Command Line Interface (CLI)
 
