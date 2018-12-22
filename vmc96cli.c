@@ -2,7 +2,7 @@
 	\file vmc96cli.c
 	\brief VMC96 Board Vending Machine Controller Command Line Interface
 	\author Tiago Ventura (tiago.ventura@gmail.com)
-	\date Dec/2019
+	\date Dec/2018
 
 	VMC96 Board Module: http://www.moneyflex.net/vmc96/
 */
