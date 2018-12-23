@@ -40,6 +40,10 @@ int vmc96_motor_run( VMC96_t * vmc96, unsigned char row, unsigned char col );
 int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1, unsigned char col2 );
 
 int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status );
+
+int vmc96_motor_scan_array( VMC96_t * vmc96, VMC96_motor_array_scan_result_t * result );
+
+int vmc96_motor_give_pulse( VMC96_t * vmc96, unsigned char row, unsigned char col, unsigned char duration_ms );
 ```
 
 # VMC96 Command Line Interface (CLI)
@@ -118,3 +122,26 @@ $ vmc96cli --help
 ## Author
 
  This project is written and maintained by Tiago Ventura (*tiago.ventura(at)gmail.com*).
+ 
+ ## License
+ ```
+ Copyright (c) 2018 - Tiago Ventura
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+```
