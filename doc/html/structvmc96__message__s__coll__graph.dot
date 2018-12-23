@@ -1,6 +1,0 @@
-digraph "vmc96_message_s"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{vmc96_message_s\n|+ id_controller\l+ command\l+ data\l+ data_length\l+ raw\l+ raw_length\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
-}
