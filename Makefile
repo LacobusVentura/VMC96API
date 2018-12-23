@@ -1,6 +1,8 @@
 # **********************************************************************
-# *                             VMC96 CLI                              *
+# *                             VMC96 API                              *
 # **********************************************************************
+
+SOURCES=vmc96cli.c vmc96api.c
 
 EXECUTABLE=vmc96cli
 
@@ -21,9 +23,7 @@ ifeq ($(DEBUG),)
     CFLAGS= -c -O2 -Wall $(INCPATH) $(DEFINES)
 endif
 
-OBJECTS= $(SOURCES:.c=.o)
-
-SOURCES=vmc96cli.c vmc96api.c
+OBJECTS=$(SOURCES:.c=.o)
 
 all: $(SOURCES) $(EXECUTABLE) move
 

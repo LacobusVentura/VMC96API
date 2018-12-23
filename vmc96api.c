@@ -2,18 +2,40 @@
 	\file vmc96api.c
 	\brief VMC96 Board Vending Machine Application Programming Interface API
 	\author Tiago Ventura (tiago.ventura@gmail.com)
-	\date Dec/2019
+	\date Dec/2018
 
-	VMC96 Board Module: http://www.moneyflex.net/vmc96/
+	Copyright (c) 2018 Tiago Ventura
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in
+	all copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	THE SOFTWARE.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
+
+#ifdef __linux__
 #include <unistd.h>
+#elif _WIN32
+#include <windows.h>
+#else
+#endif
+
 #include <libftdi1/ftdi.h>
 
 #include "vmc96api.h"
@@ -40,7 +62,7 @@
 #define VMC96_K1_RESPONSE_TYPE_DATA                       (2)
 
 /* DEVICE */
-#define VMC96_DEFAULT_RESPONSE_DELAY_US                   (20000L)  /* 20 ms  */
+#define VMC96_DEFAULT_RESPONSE_DELAY_MS                   (20)      /* 20 ms  */
 #define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)     /* 500 mA */
 
 /* VMC96 AVAILABLE CONTROLLERS */
@@ -59,20 +81,29 @@
 /* VMC96 MOTOR ARRAY COMMANDS */
 #define VMC96_COMMAND_MOTOR_RESET                         (0x05)
 #define VMC96_COMMAND_MOTOR_STATUS_REQUEST                (0x10)
+#define VMC96_COMMAND_MOTOR_SCAN_ARRAY                    (0x11)
 #define VMC96_COMMAND_MOTOR_STOP_ALL                      (0x12)
 #define VMC96_COMMAND_MOTOR_RUN                           (0x13)
+#define VMC96_COMMAND_MOTOR_GIVE_PULSE                    (0x14)
 #define VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS              (0x15)
+
 
 /* VMC96 GENERAL PURPOSE RELAYS COMMANDS */
 #define VMC96_COMMAND_RELAY_FUNCTION                      (0x11)
 
 /* HELPERS */
-#define VMC96_GET_MOTOR_ID( _row, _col )                    (((_row + 1) << 4) + (_col + 1))
-#define VMC96_GET_MOTOR_ROW( _mid )                         ( ( (_mid & 0xF0) >> 4 ) - 1 )
-#define VMC96_GET_MOTOR_COL( _mid )                         ( ( _mid & 0x0F ) - 1 )
-#define VMC96_GET_MOTOR_CURRENT_MA( _val )                  (( VMC96_MOTOR_MAX_CURRENT_READING_MA * _val) / 255 )
-#define VMC96_VALIDATE_MOTOR_COORDINATE( _row, _col )       ((_row < VMC96_MOTOR_ARRAY_ROWS_COUNT) && (_col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT))
+#define VMC96_GET_MOTOR_ID( _row, _col )                  (((_row + 1) << 4) + (_col + 1))
+#define VMC96_GET_MOTOR_ROW( _mid )                       ( ( (_mid & 0xF0) >> 4 ) - 1 )
+#define VMC96_GET_MOTOR_COL( _mid )                       ( ( _mid & 0x0F ) - 1 )
+#define VMC96_GET_MOTOR_CURRENT_MA( _val )                (( VMC96_MOTOR_MAX_CURRENT_READING_MA * _val) / 255 )
+#define VMC96_VALIDATE_MOTOR_COORDINATE( _row, _col )     ((_row < VMC96_MOTOR_ARRAY_ROWS_COUNT) && (_col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT))
 
+#ifdef __linux__
+#define VMC96_SLEEP_MS( _t )    usleep( _t / 1000L )
+#elif _WIN32
+#define VMC96_SLEEP_MS( _t )    Sleep( _t )
+#else
+#endif
 
 /* ********************************************************************* */
 /* *                        STRUCTS AND DATA TYPES                     * */
@@ -260,9 +291,9 @@ int vmc96_relay_reset( VMC96_t * vmc96, unsigned char id )
 }
 
 
-int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, bool state )
+int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, unsigned char state )
 {
-	unsigned char data = (state==true) ? 1 : 0;
+	unsigned char data = ( state ) ? 1 : 0;
 	return vmc96_send_message_ex( vmc96, VMC96_CONTROLLER_RELAY_BASE_ADDRESS + id, VMC96_COMMAND_RELAY_FUNCTION, &data, 1 );
 }
 
@@ -325,10 +356,14 @@ int vmc96_motor_get_status( VMC96_t * vmc96, VMC96_motor_array_status_t * status
 
 		status->active_count = vmc96->response.data_length - 2;
 
+		memset( &status->array, 0, sizeof(VMC96_motor_array_t) );
+
 		for( i = 0; i < vmc96->response.data_length - 2; i++ )
 		{
-			status->motors[ i ].col = VMC96_GET_MOTOR_COL( vmc96->response.data[ i + 2 ] );
-			status->motors[ i ].row = VMC96_GET_MOTOR_ROW( vmc96->response.data[ i + 2 ] );
+			unsigned char row = VMC96_GET_MOTOR_ROW( vmc96->response.data[ i + 2 ] );
+			unsigned char col = VMC96_GET_MOTOR_COL( vmc96->response.data[ i + 2 ] );
+
+			status->array.motor[ row ][ col ] = 1;
 		}
 	}
 
@@ -364,11 +399,14 @@ int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1
 }
 
 
-int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status )
+int vmc96_motor_opto_line_status( VMC96_t * vmc96, VMC96_opto_line_sample_block_t * status_block )
 {
 	int ret = 0;
+	int i = 0;
+	int j = 0;
+	int k = 0;
 
-	*status = 0;
+	memset( status_block, 0, sizeof(VMC96_opto_line_sample_block_t) );
 
 	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS );
 
@@ -376,9 +414,57 @@ int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status )
 		return ret;
 
 	if( vmc96->response.data_length == 5 )
-		memcpy( &status, &vmc96->response.data[1], vmc96->response.data_length - 1 );
+	{
+		for( i = 0; i < 4; i++ )
+		{
+			for( j = 0; j < 8; j++ )
+			{
+				status_block->sample[ k++ ] = (vmc96->response.data[ i + 1 ] >> j) & 0x01;
+			}
+		}
+	}
 
 	return VMC96_SUCCESS;
+}
+
+
+int vmc96_motor_scan_array( VMC96_t * vmc96, VMC96_motor_array_scan_result_t * result )
+{
+	int ret = 0;
+	unsigned char row = 0;
+	unsigned char col = 0;
+
+	ret = vmc96_send_message( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_SCAN_ARRAY );
+
+	if( ret != VMC96_SUCCESS )
+		return ret;
+
+	if( vmc96->response.data_length >= 2 )
+	{
+		if( vmc96->response.data[0] != VMC96_COMMAND_MOTOR_SCAN_ARRAY )
+			return VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE;
+
+		result->count = vmc96->response.data_length - 2;
+
+		memset( &result->array, 0, sizeof(VMC96_motor_array_t) );
+
+		for( row = 0; row < VMC96_MOTOR_ARRAY_ROWS_COUNT; row++ )
+			for( col = 0; col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT; col++ )
+				result->array.motor[ row ][ col ] = ( vmc96->response.data[ 2 + row ] >> col ) & 0x1;
+	}
+
+	return VMC96_SUCCESS;
+}
+
+
+int vmc96_motor_give_pulse( VMC96_t * vmc96, unsigned char row, unsigned char col, unsigned char duration_ms )
+{
+	unsigned char data[2] = { VMC96_GET_MOTOR_ID( row, col ), duration_ms };
+
+	if( !VMC96_VALIDATE_MOTOR_COORDINATE( row, col) )
+		return VMC96_ERROR_INVALID_MOTOR_COORDINATES;
+
+	return vmc96_send_message_ex( vmc96, VMC96_CONTROLLER_MOTOR_ARRAY, VMC96_COMMAND_MOTOR_GIVE_PULSE, data, 2 );
 }
 
 
@@ -473,6 +559,9 @@ static int vmc96_k1_parse_response_type( VMC96_t * vmc96 )
 				case VMC96_COMMAND_MOTOR_STOP_ALL         : return VMC96_K1_RESPONSE_TYPE_ACK;
 				case VMC96_COMMAND_MOTOR_STATUS_REQUEST   : return VMC96_K1_RESPONSE_TYPE_DATA;
 				case VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS : return VMC96_K1_RESPONSE_TYPE_DATA;
+				case VMC96_COMMAND_MOTOR_GIVE_PULSE       : return VMC96_K1_RESPONSE_TYPE_ACK;
+				case VMC96_COMMAND_MOTOR_SCAN_ARRAY       : return VMC96_K1_RESPONSE_TYPE_DATA;
+
 				default                                   : return VMC96_K1_RESPONSE_TYPE_INVALID;
 			}
 		}
@@ -581,7 +670,7 @@ static int vmc96_send_k1_message( VMC96_t * vmc96 )
 	if( ret < 0 )
 		return VMC96_ERROR_FTDI_WRITE_DATA;
 
-	usleep( VMC96_DEFAULT_RESPONSE_DELAY_US);
+	VMC96_SLEEP_MS( VMC96_DEFAULT_RESPONSE_DELAY_MS );
 
 	ret = ftdi_read_data( vmc96->ftdi, vmc96->response.k1, VMC96_K1_MESSAGE_MAX_LEN );
 
