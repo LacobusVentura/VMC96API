@@ -109,7 +109,7 @@ $ vmc96cli --controller=MOTOR_ARRAY --command=SCAN
 ```
 **Motor Array / Give Pulse:**
 ```
-	vmc96cli --controller=MOTOR_ARRAY --command=GIVE_PULSE --row=[0-11] --column=[0-7] --duration=[1-255]
+$ vmc96cli --controller=MOTOR_ARRAY --command=GIVE_PULSE --row=[0-11] --column=[0-7] --duration=[1-255]
 ```
 **Motor Array / Get Status:**
 ```
