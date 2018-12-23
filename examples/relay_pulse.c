@@ -1,6 +1,6 @@
 /*!
-	\file run_motor.c
-	\brief Example: Run Single Motor
+	\file relay_pulse.c
+	\brief Example: Relay Pulse
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec/2019
 
@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "vmc96api.h"
 
@@ -39,22 +40,36 @@ int main( int argc, char ** argv )
 	ret = vmc96_initialize( &vmc96 );
 
 	if( ret != VMC96_SUCCESS )
-	{
-		fprintf( stderr, "Error: %s (Cod: %d)\n", vmc96_get_error_code_string(ret), ret );
-		return EXIT_FAILURE;
-	}
+		goto error;
 
-	ret = vmc96_motor_run( vmc96, 0, 0 ); /* Row=0, Column=0 */
+	/* Enable Relay */
+	ret = vmc96_relay_control( vmc96, 0, 1 ); /* Relay 0, State On */
 
 	if( ret != VMC96_SUCCESS )
-	{
-		fprintf( stderr, "Error: %s (Cod: %d)\n", vmc96_get_error_code_string(ret), ret );
-		return EXIT_FAILURE;
-	}
+		goto error;
+
+	/* 1 Second Pulse Duration */
+	usleep(1000000L);
+
+	/* Disable Relay */
+	ret = vmc96_relay_control( vmc96, 0, 0 ); /* Relay 0, State Off */
+
+	if( ret != VMC96_SUCCESS )
+		goto error;
 
 	vmc96_finish( vmc96 );
 
 	return EXIT_SUCCESS;
+
+error:
+
+	/* Display error details */
+	fprintf( stderr, "Error: %s (Cod: %d)\n", vmc96_get_error_code_string(ret), ret );
+
+	vmc96_finish( vmc96 );
+
+	return EXIT_FAILURE;
+
 }
 
 /* eof */
