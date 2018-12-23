@@ -129,7 +129,7 @@ $ vmc96cli --help
 ```
 ## Author
 
- This project is written and maintained by Tiago Ventura (*tiago.ventura(at)gmail.com*).
+ This project was written and is maintained by Tiago Ventura (*tiago.ventura(at)gmail.com*).
  
  ## License
  ```
