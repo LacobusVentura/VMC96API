@@ -1,6 +1,6 @@
 /*!
-	\file run_motor_paired.c
-	\brief Example: Running Paired Motors
+	\file global_reset.c
+	\brief Example: Reset All Controllers
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec.2018
 
@@ -41,8 +41,7 @@ int main( int argc, char ** argv )
 	if( ret != VMC96_SUCCESS )
 		goto error;
 
-	/* Run paired motors in the same row */
-	ret = vmc96_motor_pair_run( vmc96, 0, 0, 1 );
+	ret = vmc96_global_reset( vmc96 );
 
 	if( ret != VMC96_SUCCESS )
 		goto error;

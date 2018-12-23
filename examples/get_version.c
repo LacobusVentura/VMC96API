@@ -1,6 +1,6 @@
 /*!
-	\file run_motor_paired.c
-	\brief Example: Running Paired Motors
+	\file get_version.c
+	\brief Example: Resquest version string from all controllers
 	\author Tiago Ventura (tiago.ventura@gmail.com)
 	\date Dec.2018
 
@@ -34,6 +34,7 @@
 int main( int argc, char ** argv )
 {
 	int ret = 0;
+	char version[ VMC96_VERSION_STRING_MAX_LEN + 1 ] = {0};
 	VMC96_t * vmc96 = NULL;
 
 	ret = vmc96_initialize( &vmc96 );
@@ -41,11 +42,29 @@ int main( int argc, char ** argv )
 	if( ret != VMC96_SUCCESS )
 		goto error;
 
-	/* Run paired motors in the same row */
-	ret = vmc96_motor_pair_run( vmc96, 0, 0, 1 );
+	/* Get Relay ID 0 Version String */
+	ret = vmc96_relay_get_version( vmc96, 0, version );
 
 	if( ret != VMC96_SUCCESS )
 		goto error;
+
+	printf("RELAY 0 Version: %s\n", version );
+
+	/* Get Relay ID 1 Version String */
+	ret = vmc96_relay_get_version( vmc96, 1, version );
+
+	if( ret != VMC96_SUCCESS )
+		goto error;
+
+	printf("RELAY 1 Version: %s\n", version );
+
+	/* Get Motor Array Version String */
+	ret = vmc96_motor_get_version( vmc96, version );
+
+	if( ret != VMC96_SUCCESS )
+		goto error;
+
+	printf("MOTOR ARRAY Version: %s\n", version );
 
 	vmc96_finish( vmc96 );
 	return EXIT_SUCCESS;

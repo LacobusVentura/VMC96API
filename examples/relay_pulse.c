@@ -2,9 +2,9 @@
 	\file relay_pulse.c
 	\brief Example: Relay Pulse
 	\author Tiago Ventura (tiago.ventura@gmail.com)
-	\date Dec/2019
+	\date Dec.2018
 
-	Copyright (c) 2018 Tiago Ventura
+	Copyright (c) 2018 Tiago Ventura (tiago.ventura@gmail.com)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
