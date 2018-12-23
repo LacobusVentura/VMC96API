@@ -1,4 +1,9 @@
 <map id="vmc96api.h" name="vmc96api.h">
-<area shape="rect" id="node2" href="$vmc96api_8c.html" title="VMC96 Board Vending Machine Application Programming Interface API. " alt="" coords="5,80,93,107"/>
-<area shape="rect" id="node3" href="$vmc96cli_8c.html" title="VMC96 Board Vending Machine Controller Command Line Interface. " alt="" coords="119,80,204,107"/>
+<area shape="rect" id="node2" href="$vmc96api_8c.html" title="VMC96 Board Vending Machine Application Programming Interface API. " alt="" coords="5,88,93,115"/>
+<area shape="rect" id="node3" href="$vmc96cli_8c.html" title="VMC96 Board Vending Machine Controller Command Line Interface. " alt="" coords="119,88,204,115"/>
+<area shape="rect" id="node4" href="$get__version_8c.html" title="Example: Resquest version string from all controllers. " alt="" coords="228,88,388,115"/>
+<area shape="rect" id="node5" href="$global__reset_8c.html" title="Example: Reset All Controllers. " alt="" coords="412,88,575,115"/>
+<area shape="rect" id="node6" href="$relay__pulse_8c.html" title="Example: Relay Pulse. " alt="" coords="599,88,757,115"/>
+<area shape="rect" id="node7" href="$run__motor_8c.html" title="Example: Run Single Motor. " alt="" coords="782,88,932,115"/>
+<area shape="rect" id="node8" href="$run__motor__paired_8c.html" title="Example: Running Paired Motors. " alt="" coords="957,81,1096,122"/>
 </map>
