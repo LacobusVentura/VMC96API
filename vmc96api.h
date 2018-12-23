@@ -2,9 +2,9 @@
 	\file vmc96api.h
 	\brief VMC96 Board Vending Machine Application Programming Interface API
 	\author Tiago Ventura (tiago.ventura@gmail.com)
-	\date Dec/2019
+	\date Dec.2018
 
-	Copyright (c) 2018 Tiago Ventura
+	Copyright (c) 2018 Tiago Ventura (tiago.ventura@gmail.com)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal

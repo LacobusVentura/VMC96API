@@ -2,9 +2,9 @@
 	\file vmc96api.c
 	\brief VMC96 Board Vending Machine Application Programming Interface API
 	\author Tiago Ventura (tiago.ventura@gmail.com)
-	\date Dec/2018
+	\date Dec.2018
 
-	Copyright (c) 2018 Tiago Ventura
+	Copyright (c) 2018 Tiago Ventura (tiago.ventura@gmail.com)
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@
 #elif _WIN32
 #include <windows.h>
 #else
+#error "Unexpected System."
 #endif
 
 #include <libftdi1/ftdi.h>
@@ -62,8 +63,8 @@
 #define VMC96_K1_RESPONSE_TYPE_DATA                       (2)
 
 /* DEVICE */
-#define VMC96_DEFAULT_RESPONSE_DELAY_MS                   (20)      /* 20 ms  */
-#define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)     /* 500 mA */
+#define VMC96_DEFAULT_RESPONSE_DELAY_MS                   (10)
+#define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)
 
 /* VMC96 AVAILABLE CONTROLLERS */
 #define VMC96_CONTROLLER_GLOBAL_BROADCAST                 (0x00)
@@ -87,7 +88,6 @@
 #define VMC96_COMMAND_MOTOR_GIVE_PULSE                    (0x14)
 #define VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS              (0x15)
 
-
 /* VMC96 GENERAL PURPOSE RELAYS COMMANDS */
 #define VMC96_COMMAND_RELAY_FUNCTION                      (0x11)
 
@@ -98,11 +98,13 @@
 #define VMC96_GET_MOTOR_CURRENT_MA( _val )                (( VMC96_MOTOR_MAX_CURRENT_READING_MA * _val) / 255 )
 #define VMC96_VALIDATE_MOTOR_COORDINATE( _row, _col )     ((_row < VMC96_MOTOR_ARRAY_ROWS_COUNT) && (_col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT))
 
+/* SLEEP/DELAY */
 #ifdef __linux__
 #define VMC96_SLEEP_MS( _t )    usleep( _t / 1000L )
 #elif _WIN32
 #define VMC96_SLEEP_MS( _t )    Sleep( _t )
 #else
+#define VMC96_SLEEP_MS( _t )
 #endif
 
 /* ********************************************************************* */
@@ -561,7 +563,6 @@ static int vmc96_k1_parse_response_type( VMC96_t * vmc96 )
 				case VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS : return VMC96_K1_RESPONSE_TYPE_DATA;
 				case VMC96_COMMAND_MOTOR_GIVE_PULSE       : return VMC96_K1_RESPONSE_TYPE_ACK;
 				case VMC96_COMMAND_MOTOR_SCAN_ARRAY       : return VMC96_K1_RESPONSE_TYPE_DATA;
-
 				default                                   : return VMC96_K1_RESPONSE_TYPE_INVALID;
 			}
 		}
@@ -603,13 +604,13 @@ static int vmc96_parse_k1_response( VMC96_t * vmc96 )
 			if( vmc96->response.k1[2] != VMC96_K1_MESSAGE_MIN_LEN )
 				return VMC96_ERROR_K1_RESPONSE_INVALID_LENGTH;
 
-			/* K1 Response: Validate Positive ACK Field */
-			if( vmc96->response.k1[3] != VMC96_K1_RESPONSE_POSITIVE_ACK )
-				return VMC96_ERROR_K1_RESPONSE_NEGATIVE_ACK;
-
 			/* K1 Response: Validate Checksum */
 			if( vmc96->response.k1[4] != vmc96_calculate_checksum( vmc96->response.k1, vmc96->response.k1_length - 1 ) )
 				return VMC96_ERROR_K1_RESPONSE_INVALID_CHECKSUM;
+
+			/* K1 Response: Validate Positive ACK Field */
+			if( vmc96->response.k1[3] != VMC96_K1_RESPONSE_POSITIVE_ACK )
+				return VMC96_ERROR_K1_RESPONSE_NEGATIVE_ACK;
 
 			return VMC96_SUCCESS;
 		}
