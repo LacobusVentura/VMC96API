@@ -57,11 +57,7 @@
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br/>
 <code>#include &lt;stdlib.h&gt;</code><br/>
-<code>#include &lt;time.h&gt;</code><br/>
 <code>#include &lt;string.h&gt;</code><br/>
-<code>#include &lt;stdint.h&gt;</code><br/>
-<code>#include &lt;stdbool.h&gt;</code><br/>
-<code>#include &lt;unistd.h&gt;</code><br/>
 <code>#include &lt;libftdi1/ftdi.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="vmc96api_8h_source.html">vmc96api.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
@@ -69,7 +65,7 @@ Include dependency graph for vmc96api.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="vmc96api_8c__incl.png" border="0" usemap="#vmc96api_8c" alt=""/></div>
 <map name="vmc96api_8c" id="vmc96api_8c">
-<area shape="rect" id="node10" href="vmc96api_8h.html" title="VMC96 Board Vending Machine Application Programming Interface API. " alt="" coords="403,80,492,107"/></map>
+<area shape="rect" id="node6" href="vmc96api_8h.html" title="VMC96 Board Vending Machine Application Programming Interface API. " alt="" coords="387,80,476,107"/></map>
 </div>
 </div>
 <p><a href="vmc96api_8c_source.html">Go to the source code of this file.</a></p>
@@ -103,8 +99,8 @@ Macros</h2></td></tr>
 <tr class="separator:acaa4e343a88ef064dbb14d2bd76cfeb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2912932d771bf3b79edf785c9481908"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#ad2912932d771bf3b79edf785c9481908">VMC96_K1_RESPONSE_TYPE_DATA</a>&#160;&#160;&#160;(2)</td></tr>
 <tr class="separator:ad2912932d771bf3b79edf785c9481908"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5611fdbe4d7743fb50ef0228f810139c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a5611fdbe4d7743fb50ef0228f810139c">VMC96_DEFAULT_RESPONSE_DELAY_US</a>&#160;&#160;&#160;(20000L)  /* 20 ms  */</td></tr>
-<tr class="separator:a5611fdbe4d7743fb50ef0228f810139c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d15c6f0eff614a808a8a42d2ebc73cd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a2d15c6f0eff614a808a8a42d2ebc73cd">VMC96_DEFAULT_RESPONSE_DELAY_MS</a>&#160;&#160;&#160;(20)      /* 20 ms  */</td></tr>
+<tr class="separator:a2d15c6f0eff614a808a8a42d2ebc73cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6b9645e754807340bff1edb96d54984"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#af6b9645e754807340bff1edb96d54984">VMC96_MOTOR_MAX_CURRENT_READING_MA</a>&#160;&#160;&#160;(500)     /* 500 mA */</td></tr>
 <tr class="separator:af6b9645e754807340bff1edb96d54984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4cdf6aa02f94375904a90905aa24cf4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#aa4cdf6aa02f94375904a90905aa24cf4">VMC96_CONTROLLER_GLOBAL_BROADCAST</a>&#160;&#160;&#160;(0x00)</td></tr>
@@ -129,10 +125,14 @@ Macros</h2></td></tr>
 <tr class="separator:a11838936845497977837bed7fc0cd3dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47de0e2e9dabb68adad27ef8f22df59c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a47de0e2e9dabb68adad27ef8f22df59c">VMC96_COMMAND_MOTOR_STATUS_REQUEST</a>&#160;&#160;&#160;(0x10)</td></tr>
 <tr class="separator:a47de0e2e9dabb68adad27ef8f22df59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add19b077bca1eb15601a33dea4c61a88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#add19b077bca1eb15601a33dea4c61a88">VMC96_COMMAND_MOTOR_SCAN_ARRAY</a>&#160;&#160;&#160;(0x11)</td></tr>
+<tr class="separator:add19b077bca1eb15601a33dea4c61a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bf5f88a905c3b69052398c4709d0b6e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a3bf5f88a905c3b69052398c4709d0b6e">VMC96_COMMAND_MOTOR_STOP_ALL</a>&#160;&#160;&#160;(0x12)</td></tr>
 <tr class="separator:a3bf5f88a905c3b69052398c4709d0b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55501424d6984d08c1e2b9e0f3424c2e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a55501424d6984d08c1e2b9e0f3424c2e">VMC96_COMMAND_MOTOR_RUN</a>&#160;&#160;&#160;(0x13)</td></tr>
 <tr class="separator:a55501424d6984d08c1e2b9e0f3424c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaed8039430ed1f0cf6d8c88a3a84e247"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#aaed8039430ed1f0cf6d8c88a3a84e247">VMC96_COMMAND_MOTOR_GIVE_PULSE</a>&#160;&#160;&#160;(0x14)</td></tr>
+<tr class="separator:aaed8039430ed1f0cf6d8c88a3a84e247"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef07322f5caeb2f6bb8e78674e716b21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#aef07322f5caeb2f6bb8e78674e716b21">VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS</a>&#160;&#160;&#160;(0x15)</td></tr>
 <tr class="separator:aef07322f5caeb2f6bb8e78674e716b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8710d000527a1fe85dbb0f16071b374"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#ab8710d000527a1fe85dbb0f16071b374">VMC96_COMMAND_RELAY_FUNCTION</a>&#160;&#160;&#160;(0x11)</td></tr>
@@ -167,9 +167,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac4134ad3ee3eb207d5c051322a193992"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#ac4134ad3ee3eb207d5c051322a193992">vmc96_relay_reset</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, unsigned char id)</td></tr>
 <tr class="memdesc:ac4134ad3ee3eb207d5c051322a193992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset General Purpose Relay Controller.  <a href="#ac4134ad3ee3eb207d5c051322a193992">More...</a><br/></td></tr>
 <tr class="separator:ac4134ad3ee3eb207d5c051322a193992"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4494f0b68fc37e81a906cc6820f92da"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#ad4494f0b68fc37e81a906cc6820f92da">vmc96_relay_control</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, unsigned char id, bool state)</td></tr>
-<tr class="memdesc:ad4494f0b68fc37e81a906cc6820f92da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set General Purpose Relay State (ON/OFF)  <a href="#ad4494f0b68fc37e81a906cc6820f92da">More...</a><br/></td></tr>
-<tr class="separator:ad4494f0b68fc37e81a906cc6820f92da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e97c28f78638a75671e7996f68185db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a5e97c28f78638a75671e7996f68185db">vmc96_relay_control</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, unsigned char id, unsigned char state)</td></tr>
+<tr class="memdesc:a5e97c28f78638a75671e7996f68185db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set General Purpose Relay State (ON/OFF).  <a href="#a5e97c28f78638a75671e7996f68185db">More...</a><br/></td></tr>
+<tr class="separator:a5e97c28f78638a75671e7996f68185db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc4776cf29675d135444586d162fcb0c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#adc4776cf29675d135444586d162fcb0c">vmc96_motor_ping</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96)</td></tr>
 <tr class="memdesc:adc4776cf29675d135444586d162fcb0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ping Motor Array Controller.  <a href="#adc4776cf29675d135444586d162fcb0c">More...</a><br/></td></tr>
 <tr class="separator:adc4776cf29675d135444586d162fcb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,11 +191,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a671369a0d1afa147aa145323942f75c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a671369a0d1afa147aa145323942f75c4">vmc96_motor_pair_run</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, unsigned char row, unsigned char col1, unsigned char col2)</td></tr>
 <tr class="memdesc:a671369a0d1afa147aa145323942f75c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a pair of motors in the same row.  <a href="#a671369a0d1afa147aa145323942f75c4">More...</a><br/></td></tr>
 <tr class="separator:a671369a0d1afa147aa145323942f75c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a922988f1b1ef374f7f8e6cece66b4deb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a922988f1b1ef374f7f8e6cece66b4deb">vmc96_motor_opto_line_status</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, uint32_t *status)</td></tr>
-<tr class="memdesc:a922988f1b1ef374f7f8e6cece66b4deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve Opto Line Status.  <a href="#a922988f1b1ef374f7f8e6cece66b4deb">More...</a><br/></td></tr>
-<tr class="separator:a922988f1b1ef374f7f8e6cece66b4deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a494f81fd3e21f440fdeaf399124cbe06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a494f81fd3e21f440fdeaf399124cbe06">vmc96_motor_opto_line_status</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, <a class="el" href="vmc96api_8h.html#a396dfb3dd8079e605b4e9681bc595260">VMC96_opto_line_sample_block_t</a> *status_block)</td></tr>
+<tr class="memdesc:a494f81fd3e21f440fdeaf399124cbe06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve Opto Line Status.  <a href="#a494f81fd3e21f440fdeaf399124cbe06">More...</a><br/></td></tr>
+<tr class="separator:a494f81fd3e21f440fdeaf399124cbe06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8bb3e803d07ab682f99760a9aaaf2c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#af8bb3e803d07ab682f99760a9aaaf2c8">vmc96_motor_scan_array</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, <a class="el" href="vmc96api_8h.html#a16d8f7d5beb5fbfb037bee80cfb14f9d">VMC96_motor_array_scan_result_t</a> *result)</td></tr>
+<tr class="memdesc:af8bb3e803d07ab682f99760a9aaaf2c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scan Motor Array.  <a href="#af8bb3e803d07ab682f99760a9aaaf2c8">More...</a><br/></td></tr>
+<tr class="separator:af8bb3e803d07ab682f99760a9aaaf2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0861fa81e710783bac2daca192adb5de"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a0861fa81e710783bac2daca192adb5de">vmc96_motor_give_pulse</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96, unsigned char row, unsigned char col, unsigned char duration_ms)</td></tr>
+<tr class="memdesc:a0861fa81e710783bac2daca192adb5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor Array Give Pulse.  <a href="#a0861fa81e710783bac2daca192adb5de">More...</a><br/></td></tr>
+<tr class="separator:a0861fa81e710783bac2daca192adb5de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56db829a21bce8ea68f1a1748c081289"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a56db829a21bce8ea68f1a1748c081289">vmc96_global_reset</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96)</td></tr>
-<tr class="memdesc:a56db829a21bce8ea68f1a1748c081289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global Reset (All Controllers)  <a href="#a56db829a21bce8ea68f1a1748c081289">More...</a><br/></td></tr>
+<tr class="memdesc:a56db829a21bce8ea68f1a1748c081289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Global Reset (All Controllers).  <a href="#a56db829a21bce8ea68f1a1748c081289">More...</a><br/></td></tr>
 <tr class="separator:a56db829a21bce8ea68f1a1748c081289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9564998ba37f9f4263d1876e1cb846a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vmc96api_8c.html#a9564998ba37f9f4263d1876e1cb846a3">vmc96_finish</a> (<a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *vmc96)</td></tr>
 <tr class="memdesc:a9564998ba37f9f4263d1876e1cb846a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy a VMC96 Context Object.  <a href="#a9564998ba37f9f4263d1876e1cb846a3">More...</a><br/></td></tr>
@@ -222,9 +228,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00055">55</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00059">59</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00389">vmc96_global_reset()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00457">vmc96_global_reset()</a>.</p>
 
 </div>
 </div>
@@ -238,9 +244,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00056">56</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00060">60</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00280">vmc96_motor_get_version()</a>, and <a class="el" href="vmc96api_8c_source.html#l00236">vmc96_relay_get_version()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00293">vmc96_motor_get_version()</a>, and <a class="el" href="vmc96api_8c_source.html#l00249">vmc96_relay_get_version()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aaed8039430ed1f0cf6d8c88a3a84e247"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VMC96_COMMAND_MOTOR_GIVE_PULSE&#160;&#160;&#160;(0x14)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00069">69</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00442">vmc96_motor_give_pulse()</a>.</p>
 
 </div>
 </div>
@@ -254,9 +276,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00064">64</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00070">70</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00367">vmc96_motor_opto_line_status()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00384">vmc96_motor_opto_line_status()</a>.</p>
 
 </div>
 </div>
@@ -270,7 +292,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00060">60</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00064">64</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -284,9 +306,25 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00063">63</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00068">68</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00345">vmc96_motor_run()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00373">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00362">vmc96_motor_run()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add19b077bca1eb15601a33dea4c61a88"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VMC96_COMMAND_MOTOR_SCAN_ARRAY&#160;&#160;&#160;(0x11)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00066">66</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00413">vmc96_motor_scan_array()</a>.</p>
 
 </div>
 </div>
@@ -300,9 +338,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00061">61</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00065">65</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00307">vmc96_motor_get_status()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00320">vmc96_motor_get_status()</a>.</p>
 
 </div>
 </div>
@@ -316,9 +354,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00062">62</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00067">67</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00339">vmc96_motor_stop_all()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_stop_all()</a>.</p>
 
 </div>
 </div>
@@ -332,9 +370,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00067">67</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00074">74</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00263">vmc96_relay_control()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00276">vmc96_relay_control()</a>.</p>
 
 </div>
 </div>
@@ -348,9 +386,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00057">57</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00061">61</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00301">vmc96_motor_reset()</a>, and <a class="el" href="vmc96api_8c_source.html#l00257">vmc96_relay_reset()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00314">vmc96_motor_reset()</a>, and <a class="el" href="vmc96api_8c_source.html#l00270">vmc96_relay_reset()</a>.</p>
 
 </div>
 </div>
@@ -364,9 +402,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00054">54</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00058">58</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00274">vmc96_motor_ping()</a>, and <a class="el" href="vmc96api_8c_source.html#l00230">vmc96_relay_ping()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00287">vmc96_motor_ping()</a>, and <a class="el" href="vmc96api_8c_source.html#l00243">vmc96_relay_ping()</a>.</p>
 
 </div>
 </div>
@@ -380,9 +418,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00047">47</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00051">51</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00389">vmc96_global_reset()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00457">vmc96_global_reset()</a>.</p>
 
 </div>
 </div>
@@ -396,9 +434,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00051">51</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00055">55</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00307">vmc96_motor_get_status()</a>, <a class="el" href="vmc96api_8c_source.html#l00280">vmc96_motor_get_version()</a>, <a class="el" href="vmc96api_8c_source.html#l00367">vmc96_motor_opto_line_status()</a>, <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_pair_run()</a>, <a class="el" href="vmc96api_8c_source.html#l00274">vmc96_motor_ping()</a>, <a class="el" href="vmc96api_8c_source.html#l00301">vmc96_motor_reset()</a>, <a class="el" href="vmc96api_8c_source.html#l00345">vmc96_motor_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00339">vmc96_motor_stop_all()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00320">vmc96_motor_get_status()</a>, <a class="el" href="vmc96api_8c_source.html#l00293">vmc96_motor_get_version()</a>, <a class="el" href="vmc96api_8c_source.html#l00442">vmc96_motor_give_pulse()</a>, <a class="el" href="vmc96api_8c_source.html#l00384">vmc96_motor_opto_line_status()</a>, <a class="el" href="vmc96api_8c_source.html#l00373">vmc96_motor_pair_run()</a>, <a class="el" href="vmc96api_8c_source.html#l00287">vmc96_motor_ping()</a>, <a class="el" href="vmc96api_8c_source.html#l00314">vmc96_motor_reset()</a>, <a class="el" href="vmc96api_8c_source.html#l00362">vmc96_motor_run()</a>, <a class="el" href="vmc96api_8c_source.html#l00413">vmc96_motor_scan_array()</a>, and <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_stop_all()</a>.</p>
 
 </div>
 </div>
@@ -412,7 +450,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00049">49</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00053">53</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -426,7 +464,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00050">50</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00054">54</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -440,23 +478,23 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00048">48</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00052">52</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00263">vmc96_relay_control()</a>, <a class="el" href="vmc96api_8c_source.html#l00236">vmc96_relay_get_version()</a>, <a class="el" href="vmc96api_8c_source.html#l00230">vmc96_relay_ping()</a>, and <a class="el" href="vmc96api_8c_source.html#l00257">vmc96_relay_reset()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00276">vmc96_relay_control()</a>, <a class="el" href="vmc96api_8c_source.html#l00249">vmc96_relay_get_version()</a>, <a class="el" href="vmc96api_8c_source.html#l00243">vmc96_relay_ping()</a>, and <a class="el" href="vmc96api_8c_source.html#l00270">vmc96_relay_reset()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a5611fdbe4d7743fb50ef0228f810139c"></a>
+<a class="anchor" id="a2d15c6f0eff614a808a8a42d2ebc73cd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define VMC96_DEFAULT_RESPONSE_DELAY_US&#160;&#160;&#160;(20000L)  /* 20 ms  */</td>
+          <td class="memname">#define VMC96_DEFAULT_RESPONSE_DELAY_MS&#160;&#160;&#160;(20)      /* 20 ms  */</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00043">43</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00047">47</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -470,9 +508,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00028">28</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00032">32</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00649">vmc96_initialize()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00720">vmc96_initialize()</a>.</p>
 
 </div>
 </div>
@@ -486,9 +524,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00027">27</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00031">31</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00649">vmc96_initialize()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00720">vmc96_initialize()</a>.</p>
 
 </div>
 </div>
@@ -506,9 +544,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00072">72</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00079">79</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00307">vmc96_motor_get_status()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00320">vmc96_motor_get_status()</a>.</p>
 
 </div>
 </div>
@@ -526,9 +564,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00073">73</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00080">80</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00307">vmc96_motor_get_status()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00320">vmc96_motor_get_status()</a>.</p>
 
 </div>
 </div>
@@ -556,9 +594,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00070">70</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00077">77</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00345">vmc96_motor_run()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00442">vmc96_motor_give_pulse()</a>, <a class="el" href="vmc96api_8c_source.html#l00373">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00362">vmc96_motor_run()</a>.</p>
 
 </div>
 </div>
@@ -576,9 +614,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00071">71</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00078">78</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00307">vmc96_motor_get_status()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00320">vmc96_motor_get_status()</a>.</p>
 
 </div>
 </div>
@@ -592,7 +630,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00034">34</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00038">38</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -606,7 +644,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00032">32</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00036">36</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -620,7 +658,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00033">33</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00037">37</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -634,7 +672,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00031">31</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00035">35</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -648,7 +686,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00035">35</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00039">39</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -662,7 +700,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00039">39</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00043">43</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -676,7 +714,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00040">40</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00044">44</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -690,7 +728,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00038">38</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00042">42</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -704,7 +742,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00044">44</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00048">48</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -732,9 +770,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00074">74</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00081">81</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00356">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00345">vmc96_motor_run()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96api_8c_source.html#l00442">vmc96_motor_give_pulse()</a>, <a class="el" href="vmc96api_8c_source.html#l00373">vmc96_motor_pair_run()</a>, and <a class="el" href="vmc96api_8c_source.html#l00362">vmc96_motor_run()</a>.</p>
 
 </div>
 </div>
@@ -749,7 +787,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00081">81</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00094">94</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
 </div>
 </div>
@@ -771,17 +809,17 @@ Functions</h2></td></tr>
 <p>Destroy a VMC96 Context Object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 context object to be destroyed </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 context object to be destroyed. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00641">641</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00712">712</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00097">VMC96_s::ftdi</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00110">VMC96_s::ftdi</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00559">main()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00643">main()</a>.</p>
 
 </div>
 </div>
@@ -802,17 +840,17 @@ Functions</h2></td></tr>
 <p>Translate an error code to a human readable string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cod</td><td></td></tr>
+    <tr><td class="paramname">cod</td><td>Error code to translate. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to a zero terminated string. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00198">198</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00211">211</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8h_source.html#l00018">VMC96_ERROR_FTDI_INITIALIZE</a>, <a class="el" href="vmc96api_8h_source.html#l00020">VMC96_ERROR_FTDI_OPEN_USB_DEVICE</a>, <a class="el" href="vmc96api_8h_source.html#l00027">VMC96_ERROR_FTDI_PURGE_BUFFERS</a>, <a class="el" href="vmc96api_8h_source.html#l00026">VMC96_ERROR_FTDI_READ_DATA</a>, <a class="el" href="vmc96api_8h_source.html#l00021">VMC96_ERROR_FTDI_RESET_USB</a>, <a class="el" href="vmc96api_8h_source.html#l00022">VMC96_ERROR_FTDI_SET_BAUDRATE</a>, <a class="el" href="vmc96api_8h_source.html#l00019">VMC96_ERROR_FTDI_SET_INTERFACE</a>, <a class="el" href="vmc96api_8h_source.html#l00023">VMC96_ERROR_FTDI_SET_LINE_PROPS</a>, <a class="el" href="vmc96api_8h_source.html#l00024">VMC96_ERROR_FTDI_SET_NO_FLOW</a>, <a class="el" href="vmc96api_8h_source.html#l00025">VMC96_ERROR_FTDI_WRITE_DATA</a>, <a class="el" href="vmc96api_8h_source.html#l00033">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8h_source.html#l00028">VMC96_ERROR_K1_RESPONSE_INVALID_CHECKSUM</a>, <a class="el" href="vmc96api_8h_source.html#l00032">VMC96_ERROR_K1_RESPONSE_INVALID_LENGTH</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE</a>, <a class="el" href="vmc96api_8h_source.html#l00030">VMC96_ERROR_K1_RESPONSE_MALFORMED</a>, <a class="el" href="vmc96api_8h_source.html#l00029">VMC96_ERROR_K1_RESPONSE_NEGATIVE_ACK</a>, <a class="el" href="vmc96api_8h_source.html#l00017">VMC96_ERROR_OUT_OF_MEMORY</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_ERROR_FTDI_INITIALIZE</a>, <a class="el" href="vmc96api_8h_source.html#l00018">VMC96_ERROR_FTDI_OPEN_USB_DEVICE</a>, <a class="el" href="vmc96api_8h_source.html#l00025">VMC96_ERROR_FTDI_PURGE_BUFFERS</a>, <a class="el" href="vmc96api_8h_source.html#l00024">VMC96_ERROR_FTDI_READ_DATA</a>, <a class="el" href="vmc96api_8h_source.html#l00019">VMC96_ERROR_FTDI_RESET_USB</a>, <a class="el" href="vmc96api_8h_source.html#l00020">VMC96_ERROR_FTDI_SET_BAUDRATE</a>, <a class="el" href="vmc96api_8h_source.html#l00017">VMC96_ERROR_FTDI_SET_INTERFACE</a>, <a class="el" href="vmc96api_8h_source.html#l00021">VMC96_ERROR_FTDI_SET_LINE_PROPS</a>, <a class="el" href="vmc96api_8h_source.html#l00022">VMC96_ERROR_FTDI_SET_NO_FLOW</a>, <a class="el" href="vmc96api_8h_source.html#l00023">VMC96_ERROR_FTDI_WRITE_DATA</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8h_source.html#l00026">VMC96_ERROR_K1_RESPONSE_INVALID_CHECKSUM</a>, <a class="el" href="vmc96api_8h_source.html#l00030">VMC96_ERROR_K1_RESPONSE_INVALID_LENGTH</a>, <a class="el" href="vmc96api_8h_source.html#l00029">VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE</a>, <a class="el" href="vmc96api_8h_source.html#l00028">VMC96_ERROR_K1_RESPONSE_MALFORMED</a>, <a class="el" href="vmc96api_8h_source.html#l00027">VMC96_ERROR_K1_RESPONSE_NEGATIVE_ACK</a>, <a class="el" href="vmc96api_8h_source.html#l00015">VMC96_ERROR_OUT_OF_MEMORY</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00559">main()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00643">main()</a>.</p>
 
 </div>
 </div>
@@ -830,18 +868,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Global Reset (All Controllers) </p>
+<p>Global Reset (All Controllers). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00389">389</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00457">457</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_COMMAND_GLOBAL_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00047">VMC96_CONTROLLER_GLOBAL_BROADCAST</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00059">VMC96_COMMAND_GLOBAL_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_GLOBAL_BROADCAST</a>.</p>
 
 </div>
 </div>
@@ -862,17 +900,17 @@ Functions</h2></td></tr>
 <p>Create a VMC96 Context Object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>VMC96 Context Object To be Created </td></tr>
+    <tr><td class="paramname">vmc96</td><td>VMC96 Context Object To be Created. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00649">649</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00720">720</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00097">VMC96_s::ftdi</a>, <a class="el" href="vmc96api_8c_source.html#l00098">VMC96_s::ftdi_version</a>, <a class="el" href="vmc96api_8c_source.html#l00028">VMC96_DEVICE_PRODUCT_ID</a>, <a class="el" href="vmc96api_8c_source.html#l00027">VMC96_DEVICE_VENDOR_ID</a>, <a class="el" href="vmc96api_8h_source.html#l00018">VMC96_ERROR_FTDI_INITIALIZE</a>, <a class="el" href="vmc96api_8h_source.html#l00020">VMC96_ERROR_FTDI_OPEN_USB_DEVICE</a>, <a class="el" href="vmc96api_8h_source.html#l00021">VMC96_ERROR_FTDI_RESET_USB</a>, <a class="el" href="vmc96api_8h_source.html#l00022">VMC96_ERROR_FTDI_SET_BAUDRATE</a>, <a class="el" href="vmc96api_8h_source.html#l00019">VMC96_ERROR_FTDI_SET_INTERFACE</a>, <a class="el" href="vmc96api_8h_source.html#l00023">VMC96_ERROR_FTDI_SET_LINE_PROPS</a>, <a class="el" href="vmc96api_8h_source.html#l00024">VMC96_ERROR_FTDI_SET_NO_FLOW</a>, <a class="el" href="vmc96api_8h_source.html#l00017">VMC96_ERROR_OUT_OF_MEMORY</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00110">VMC96_s::ftdi</a>, <a class="el" href="vmc96api_8c_source.html#l00111">VMC96_s::ftdi_version</a>, <a class="el" href="vmc96api_8c_source.html#l00032">VMC96_DEVICE_PRODUCT_ID</a>, <a class="el" href="vmc96api_8c_source.html#l00031">VMC96_DEVICE_VENDOR_ID</a>, <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_ERROR_FTDI_INITIALIZE</a>, <a class="el" href="vmc96api_8h_source.html#l00018">VMC96_ERROR_FTDI_OPEN_USB_DEVICE</a>, <a class="el" href="vmc96api_8h_source.html#l00019">VMC96_ERROR_FTDI_RESET_USB</a>, <a class="el" href="vmc96api_8h_source.html#l00020">VMC96_ERROR_FTDI_SET_BAUDRATE</a>, <a class="el" href="vmc96api_8h_source.html#l00017">VMC96_ERROR_FTDI_SET_INTERFACE</a>, <a class="el" href="vmc96api_8h_source.html#l00021">VMC96_ERROR_FTDI_SET_LINE_PROPS</a>, <a class="el" href="vmc96api_8h_source.html#l00022">VMC96_ERROR_FTDI_SET_NO_FLOW</a>, <a class="el" href="vmc96api_8h_source.html#l00015">VMC96_ERROR_OUT_OF_MEMORY</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
-<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00559">main()</a>.</p>
+<p>Referenced by <a class="el" href="vmc96cli_8c_source.html#l00643">main()</a>.</p>
 
 </div>
 </div>
@@ -903,16 +941,16 @@ Functions</h2></td></tr>
 <p>Retrieve Running Motors Status. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
     <tr><td class="paramname">status</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00307">307</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00320">320</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8h_source.html#l00064">VMC96_motor_array_status_s::active_count</a>, <a class="el" href="vmc96api_8h_source.html#l00053">VMC96_motor_coordinates_s::col</a>, <a class="el" href="vmc96api_8h_source.html#l00065">VMC96_motor_array_status_s::current_ma</a>, <a class="el" href="vmc96api_8c_source.html#l00088">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00089">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8h_source.html#l00063">VMC96_motor_array_status_s::motors</a>, <a class="el" href="vmc96api_8c_source.html#l00100">VMC96_s::response</a>, <a class="el" href="vmc96api_8h_source.html#l00054">VMC96_motor_coordinates_s::row</a>, <a class="el" href="vmc96api_8c_source.html#l00061">VMC96_COMMAND_MOTOR_STATUS_REQUEST</a>, <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE</a>, <a class="el" href="vmc96api_8c_source.html#l00072">VMC96_GET_MOTOR_COL</a>, <a class="el" href="vmc96api_8c_source.html#l00073">VMC96_GET_MOTOR_CURRENT_MA</a>, <a class="el" href="vmc96api_8c_source.html#l00071">VMC96_GET_MOTOR_ROW</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8h_source.html#l00072">VMC96_motor_array_status_s::active_count</a>, <a class="el" href="vmc96api_8h_source.html#l00071">VMC96_motor_array_status_s::array</a>, <a class="el" href="vmc96api_8h_source.html#l00073">VMC96_motor_array_status_s::current_ma</a>, <a class="el" href="vmc96api_8c_source.html#l00101">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00102">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8h_source.html#l00053">VMC96_motor_array_s::motor</a>, <a class="el" href="vmc96api_8c_source.html#l00113">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00065">VMC96_COMMAND_MOTOR_STATUS_REQUEST</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00029">VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE</a>, <a class="el" href="vmc96api_8c_source.html#l00079">VMC96_GET_MOTOR_COL</a>, <a class="el" href="vmc96api_8c_source.html#l00080">VMC96_GET_MOTOR_CURRENT_MA</a>, <a class="el" href="vmc96api_8c_source.html#l00078">VMC96_GET_MOTOR_ROW</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
 </div>
 </div>
@@ -943,20 +981,74 @@ Functions</h2></td></tr>
 <p>Retrieve Motor Array Controller Version. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
     <tr><td class="paramname">version</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00280">280</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00293">293</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00088">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00089">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00100">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00056">VMC96_COMMAND_KERNEL_VERSION</a>, <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00101">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00102">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00113">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00060">VMC96_COMMAND_KERNEL_VERSION</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a922988f1b1ef374f7f8e6cece66b4deb"></a>
+<a class="anchor" id="a0861fa81e710783bac2daca192adb5de"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vmc96_motor_give_pulse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *&#160;</td>
+          <td class="paramname"><em>vmc96</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>col</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>duration_ms</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Motor Array Give Pulse. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">row</td><td>Motor Array Row Coordinate </td></tr>
+    <tr><td class="paramname">col</td><td>Motor Array Column Coordinate </td></tr>
+    <tr><td class="paramname">duration_ms</td><td>Pulse duration in milliseconds (1 to 255 ms) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
+
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00442">442</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+
+<p>References <a class="el" href="vmc96api_8c_source.html#l00069">VMC96_COMMAND_MOTOR_GIVE_PULSE</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8c_source.html#l00077">VMC96_GET_MOTOR_ID</a>, and <a class="el" href="vmc96api_8c_source.html#l00081">VMC96_VALIDATE_MOTOR_COORDINATE</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a494f81fd3e21f440fdeaf399124cbe06"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -969,7 +1061,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="vmc96api_8h.html#a396dfb3dd8079e605b4e9681bc595260">VMC96_opto_line_sample_block_t</a> *&#160;</td>
           <td class="paramname"><em>status</em>&#160;</td>
         </tr>
         <tr>
@@ -983,16 +1075,16 @@ Functions</h2></td></tr>
 <p>Retrieve Opto Line Status. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
     <tr><td class="paramname">status</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00367">367</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00384">384</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00088">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00089">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00100">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00064">VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS</a>, <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00101">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00102">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00113">VMC96_s::response</a>, <a class="el" href="vmc96api_8h_source.html#l00062">VMC96_opto_line_sample_block_s::sample</a>, <a class="el" href="vmc96api_8c_source.html#l00070">VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
 </div>
 </div>
@@ -1035,18 +1127,18 @@ Functions</h2></td></tr>
 <p>Run a pair of motors in the same row. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">row</td><td>Motor Array Row Coordinate </td></tr>
-    <tr><td class="paramname">col1</td><td>Motor Array First Column Coordinate </td></tr>
-    <tr><td class="paramname">col2</td><td>Motor Array Second Column Coordinate </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">row</td><td>Motor Array Row Coordinate. </td></tr>
+    <tr><td class="paramname">col1</td><td>Motor Array First Column Coordinate. </td></tr>
+    <tr><td class="paramname">col2</td><td>Motor Array Second Column Coordinate. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00356">356</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00373">373</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00063">VMC96_COMMAND_MOTOR_RUN</a>, <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00033">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8c_source.html#l00070">VMC96_GET_MOTOR_ID</a>, and <a class="el" href="vmc96api_8c_source.html#l00074">VMC96_VALIDATE_MOTOR_COORDINATE</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00068">VMC96_COMMAND_MOTOR_RUN</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8c_source.html#l00077">VMC96_GET_MOTOR_ID</a>, and <a class="el" href="vmc96api_8c_source.html#l00081">VMC96_VALIDATE_MOTOR_COORDINATE</a>.</p>
 
 </div>
 </div>
@@ -1067,15 +1159,15 @@ Functions</h2></td></tr>
 <p>Ping Motor Array Controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00274">274</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00287">287</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00054">VMC96_COMMAND_SIMPLE_PING</a>, and <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00058">VMC96_COMMAND_SIMPLE_PING</a>, and <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
 
 </div>
 </div>
@@ -1096,15 +1188,15 @@ Functions</h2></td></tr>
 <p>Reset Motor Array Controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00301">301</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00314">314</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00057">VMC96_COMMAND_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00061">VMC96_COMMAND_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
 
 </div>
 </div>
@@ -1141,17 +1233,57 @@ Functions</h2></td></tr>
 <p>Run Single Motor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">row</td><td>Motor Array Row Coordinate </td></tr>
-    <tr><td class="paramname">col</td><td>Motor Array Column Coordinate </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">row</td><td>Motor Array Row Coordinate. </td></tr>
+    <tr><td class="paramname">col</td><td>Motor Array Column Coordinate. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00345">345</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00362">362</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00063">VMC96_COMMAND_MOTOR_RUN</a>, <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00033">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8c_source.html#l00070">VMC96_GET_MOTOR_ID</a>, and <a class="el" href="vmc96api_8c_source.html#l00074">VMC96_VALIDATE_MOTOR_COORDINATE</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00068">VMC96_COMMAND_MOTOR_RUN</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00031">VMC96_ERROR_INVALID_MOTOR_COORDINATES</a>, <a class="el" href="vmc96api_8c_source.html#l00077">VMC96_GET_MOTOR_ID</a>, and <a class="el" href="vmc96api_8c_source.html#l00081">VMC96_VALIDATE_MOTOR_COORDINATE</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af8bb3e803d07ab682f99760a9aaaf2c8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int vmc96_motor_scan_array </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="vmc96api_8h.html#a83005f3aba0fee1b17c62e9d80abd1e6">VMC96_t</a> *&#160;</td>
+          <td class="paramname"><em>vmc96</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="vmc96api_8h.html#a16d8f7d5beb5fbfb037bee80cfb14f9d">VMC96_motor_array_scan_result_t</a> *&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Scan Motor Array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">result</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
+
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00413">413</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+
+<p>References <a class="el" href="vmc96api_8h_source.html#l00082">VMC96_motor_array_scan_result_s::array</a>, <a class="el" href="vmc96api_8h_source.html#l00083">VMC96_motor_array_scan_result_s::count</a>, <a class="el" href="vmc96api_8c_source.html#l00101">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00102">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8h_source.html#l00053">VMC96_motor_array_s::motor</a>, <a class="el" href="vmc96api_8c_source.html#l00113">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00066">VMC96_COMMAND_MOTOR_SCAN_ARRAY</a>, <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>, <a class="el" href="vmc96api_8h_source.html#l00029">VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE</a>, <a class="el" href="vmc96api_8h_source.html#l00038">VMC96_MOTOR_ARRAY_COLUMNS_COUNT</a>, <a class="el" href="vmc96api_8h_source.html#l00037">VMC96_MOTOR_ARRAY_ROWS_COUNT</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
 </div>
 </div>
@@ -1172,19 +1304,19 @@ Functions</h2></td></tr>
 <p>Stop All Running Motors. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00339">339</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00356">356</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00062">VMC96_COMMAND_MOTOR_STOP_ALL</a>, and <a class="el" href="vmc96api_8c_source.html#l00051">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00067">VMC96_COMMAND_MOTOR_STOP_ALL</a>, and <a class="el" href="vmc96api_8c_source.html#l00055">VMC96_CONTROLLER_MOTOR_ARRAY</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad4494f0b68fc37e81a906cc6820f92da"></a>
+<a class="anchor" id="a5e97c28f78638a75671e7996f68185db"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1203,7 +1335,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">unsigned char&#160;</td>
           <td class="paramname"><em>state</em>&#160;</td>
         </tr>
         <tr>
@@ -1214,20 +1346,20 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Set General Purpose Relay State (ON/OFF) </p>
+<p>Set General Purpose Relay State (ON/OFF). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">id</td><td></td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">id</td><td>Relay ID. </td></tr>
     <tr><td class="paramname">state</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00263">263</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00276">276</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00067">VMC96_COMMAND_RELAY_FUNCTION</a>, and <a class="el" href="vmc96api_8c_source.html#l00048">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00074">VMC96_COMMAND_RELAY_FUNCTION</a>, and <a class="el" href="vmc96api_8c_source.html#l00052">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
 
 </div>
 </div>
@@ -1264,17 +1396,17 @@ Functions</h2></td></tr>
 <p>Retrieve Motor Array Controller Version. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">id</td><td></td></tr>
-    <tr><td class="paramname">version</td><td></td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">id</td><td>Relay ID. </td></tr>
+    <tr><td class="paramname">version.</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00236">236</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00249">249</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00088">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00089">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00100">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00056">VMC96_COMMAND_KERNEL_VERSION</a>, <a class="el" href="vmc96api_8c_source.html#l00048">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>, and <a class="el" href="vmc96api_8h_source.html#l00016">VMC96_SUCCESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00101">vmc96_message_s::data</a>, <a class="el" href="vmc96api_8c_source.html#l00102">vmc96_message_s::data_length</a>, <a class="el" href="vmc96api_8c_source.html#l00113">VMC96_s::response</a>, <a class="el" href="vmc96api_8c_source.html#l00060">VMC96_COMMAND_KERNEL_VERSION</a>, <a class="el" href="vmc96api_8c_source.html#l00052">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>, and <a class="el" href="vmc96api_8h_source.html#l00014">VMC96_SUCCESS</a>.</p>
 
 </div>
 </div>
@@ -1305,16 +1437,16 @@ Functions</h2></td></tr>
 <p>Ping General Purpose Relay Controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">id</td><td></td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">id</td><td>Relay ID. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00230">230</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00243">243</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00054">VMC96_COMMAND_SIMPLE_PING</a>, and <a class="el" href="vmc96api_8c_source.html#l00048">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00058">VMC96_COMMAND_SIMPLE_PING</a>, and <a class="el" href="vmc96api_8c_source.html#l00052">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
 
 </div>
 </div>
@@ -1345,16 +1477,16 @@ Functions</h2></td></tr>
 <p>Reset General Purpose Relay Controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object </td></tr>
-    <tr><td class="paramname">id</td><td></td></tr>
+    <tr><td class="paramname">vmc96</td><td>Pointer to VMC96 Context Object. </td></tr>
+    <tr><td class="paramname">id</td><td>Relay ID. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns VMC96_SUCCESS in case of success. </dd></dl>
 
-<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00257">257</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
+<p>Definition at line <a class="el" href="vmc96api_8c_source.html#l00270">270</a> of file <a class="el" href="vmc96api_8c_source.html">vmc96api.c</a>.</p>
 
-<p>References <a class="el" href="vmc96api_8c_source.html#l00057">VMC96_COMMAND_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00048">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
+<p>References <a class="el" href="vmc96api_8c_source.html#l00061">VMC96_COMMAND_RESET</a>, and <a class="el" href="vmc96api_8c_source.html#l00052">VMC96_CONTROLLER_RELAY_BASE_ADDRESS</a>.</p>
 
 </div>
 </div>

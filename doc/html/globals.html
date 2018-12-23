@@ -73,6 +73,9 @@
 <li>VMC96_COMMAND_KERNEL_VERSION
 : <a class="el" href="vmc96api_8c.html#adc3cf7d0ed500935e97238f20e3bc966">vmc96api.c</a>
 </li>
+<li>VMC96_COMMAND_MOTOR_GIVE_PULSE
+: <a class="el" href="vmc96api_8c.html#aaed8039430ed1f0cf6d8c88a3a84e247">vmc96api.c</a>
+</li>
 <li>VMC96_COMMAND_MOTOR_OPTO_LINE_STATUS
 : <a class="el" href="vmc96api_8c.html#aef07322f5caeb2f6bb8e78674e716b21">vmc96api.c</a>
 </li>
@@ -81,6 +84,9 @@
 </li>
 <li>VMC96_COMMAND_MOTOR_RUN
 : <a class="el" href="vmc96api_8c.html#a55501424d6984d08c1e2b9e0f3424c2e">vmc96api.c</a>
+</li>
+<li>VMC96_COMMAND_MOTOR_SCAN_ARRAY
+: <a class="el" href="vmc96api_8c.html#add19b077bca1eb15601a33dea4c61a88">vmc96api.c</a>
 </li>
 <li>VMC96_COMMAND_MOTOR_STATUS_REQUEST
 : <a class="el" href="vmc96api_8c.html#a47de0e2e9dabb68adad27ef8f22df59c">vmc96api.c</a>
@@ -112,8 +118,8 @@
 <li>VMC96_CONTROLLER_RELAY_BASE_ADDRESS
 : <a class="el" href="vmc96api_8c.html#a9e9ed3175558c5fe2e54bfe9d9a7242d">vmc96api.c</a>
 </li>
-<li>VMC96_DEFAULT_RESPONSE_DELAY_US
-: <a class="el" href="vmc96api_8c.html#a5611fdbe4d7743fb50ef0228f810139c">vmc96api.c</a>
+<li>VMC96_DEFAULT_RESPONSE_DELAY_MS
+: <a class="el" href="vmc96api_8c.html#a2d15c6f0eff614a808a8a42d2ebc73cd">vmc96api.c</a>
 </li>
 <li>VMC96_DEVICE_PRODUCT_ID
 : <a class="el" href="vmc96api_8c.html#a894fcc996b8b37029eb981f739ea8996">vmc96api.c</a>
@@ -233,59 +239,73 @@
 <li>VMC96_MOTOR_ARRAY_ROWS_COUNT
 : <a class="el" href="vmc96api_8h.html#a9c1a61ba055d5a03c1e5d9787591b2a6">vmc96api.h</a>
 </li>
+<li>VMC96_motor_array_scan_result_t
+: <a class="el" href="vmc96api_8h.html#a16d8f7d5beb5fbfb037bee80cfb14f9d">vmc96api.h</a>
+</li>
 <li>VMC96_motor_array_status_t
 : <a class="el" href="vmc96api_8h.html#aac81765ed43ba47533893aa60dc8d589">vmc96api.h</a>
 </li>
-<li>VMC96_motor_coordinates_t
-: <a class="el" href="vmc96api_8h.html#a08c30626c25fb688aa14df8e9b92126e">vmc96api.h</a>
+<li>VMC96_motor_array_t
+: <a class="el" href="vmc96api_8h.html#abe8a296c71e1420bf398a0663e273358">vmc96api.h</a>
 </li>
 <li>vmc96_motor_get_status()
 : <a class="el" href="vmc96api_8h.html#a6e66bab0e8605049f907a94e5b15da84">vmc96api.h</a>
 , <a class="el" href="vmc96api_8c.html#a6e66bab0e8605049f907a94e5b15da84">vmc96api.c</a>
 </li>
 <li>vmc96_motor_get_version()
-: <a class="el" href="vmc96api_8c.html#a49387617cbc90ba0615e09309109717b">vmc96api.c</a>
-, <a class="el" href="vmc96api_8h.html#a49387617cbc90ba0615e09309109717b">vmc96api.h</a>
+: <a class="el" href="vmc96api_8h.html#a49387617cbc90ba0615e09309109717b">vmc96api.h</a>
+, <a class="el" href="vmc96api_8c.html#a49387617cbc90ba0615e09309109717b">vmc96api.c</a>
+</li>
+<li>vmc96_motor_give_pulse()
+: <a class="el" href="vmc96api_8h.html#a0861fa81e710783bac2daca192adb5de">vmc96api.h</a>
+, <a class="el" href="vmc96api_8c.html#a0861fa81e710783bac2daca192adb5de">vmc96api.c</a>
 </li>
 <li>VMC96_MOTOR_MAX_CURRENT_READING_MA
 : <a class="el" href="vmc96api_8c.html#af6b9645e754807340bff1edb96d54984">vmc96api.c</a>
 </li>
 <li>vmc96_motor_opto_line_status()
-: <a class="el" href="vmc96api_8h.html#a922988f1b1ef374f7f8e6cece66b4deb">vmc96api.h</a>
-, <a class="el" href="vmc96api_8c.html#a922988f1b1ef374f7f8e6cece66b4deb">vmc96api.c</a>
+: <a class="el" href="vmc96api_8h.html#adfe0400a1e85943c0e78d83fefa93a71">vmc96api.h</a>
+, <a class="el" href="vmc96api_8c.html#a494f81fd3e21f440fdeaf399124cbe06">vmc96api.c</a>
 </li>
 <li>vmc96_motor_pair_run()
 : <a class="el" href="vmc96api_8h.html#a671369a0d1afa147aa145323942f75c4">vmc96api.h</a>
 , <a class="el" href="vmc96api_8c.html#a671369a0d1afa147aa145323942f75c4">vmc96api.c</a>
 </li>
 <li>vmc96_motor_ping()
-: <a class="el" href="vmc96api_8h.html#adc4776cf29675d135444586d162fcb0c">vmc96api.h</a>
-, <a class="el" href="vmc96api_8c.html#adc4776cf29675d135444586d162fcb0c">vmc96api.c</a>
+: <a class="el" href="vmc96api_8c.html#adc4776cf29675d135444586d162fcb0c">vmc96api.c</a>
+, <a class="el" href="vmc96api_8h.html#adc4776cf29675d135444586d162fcb0c">vmc96api.h</a>
 </li>
 <li>vmc96_motor_reset()
 : <a class="el" href="vmc96api_8h.html#a32729fa76257c09ef25c9c630402a91c">vmc96api.h</a>
 , <a class="el" href="vmc96api_8c.html#a32729fa76257c09ef25c9c630402a91c">vmc96api.c</a>
 </li>
 <li>vmc96_motor_run()
-: <a class="el" href="vmc96api_8h.html#a58c6b252c5cd0f5683142371a1076673">vmc96api.h</a>
-, <a class="el" href="vmc96api_8c.html#a58c6b252c5cd0f5683142371a1076673">vmc96api.c</a>
+: <a class="el" href="vmc96api_8c.html#a58c6b252c5cd0f5683142371a1076673">vmc96api.c</a>
+, <a class="el" href="vmc96api_8h.html#a58c6b252c5cd0f5683142371a1076673">vmc96api.h</a>
+</li>
+<li>vmc96_motor_scan_array()
+: <a class="el" href="vmc96api_8h.html#af8bb3e803d07ab682f99760a9aaaf2c8">vmc96api.h</a>
+, <a class="el" href="vmc96api_8c.html#af8bb3e803d07ab682f99760a9aaaf2c8">vmc96api.c</a>
 </li>
 <li>vmc96_motor_stop_all()
 : <a class="el" href="vmc96api_8h.html#a7aad08b3bf16be877e1e2848f4ca92dd">vmc96api.h</a>
 , <a class="el" href="vmc96api_8c.html#a7aad08b3bf16be877e1e2848f4ca92dd">vmc96api.c</a>
 </li>
-<li>VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_US
-: <a class="el" href="vmc96api_8h.html#a7adeca1ff35887feb53ea58614b7c691">vmc96api.h</a>
+<li>VMC96_OPTO_LINE_SAMPLE_BLOCK_LENGTH_MS
+: <a class="el" href="vmc96api_8h.html#a03a4add0b90cf400e26a4c78bb4527b8">vmc96api.h</a>
 </li>
-<li>VMC96_OPTO_LINE_SAMPLE_LENGTH_US
-: <a class="el" href="vmc96api_8h.html#abe13d0aa0abc8a8329f429ca030f9f65">vmc96api.h</a>
+<li>VMC96_opto_line_sample_block_t
+: <a class="el" href="vmc96api_8h.html#a396dfb3dd8079e605b4e9681bc595260">vmc96api.h</a>
+</li>
+<li>VMC96_OPTO_LINE_SAMPLE_LENGTH_MS
+: <a class="el" href="vmc96api_8h.html#a746448138f9748dcc8b3640abe719693">vmc96api.h</a>
 </li>
 <li>VMC96_OPTO_LINE_SAMPLES_PER_BLOCK
 : <a class="el" href="vmc96api_8h.html#a559e5da045e87aef76c0414562d82072">vmc96api.h</a>
 </li>
 <li>vmc96_relay_control()
-: <a class="el" href="vmc96api_8h.html#ad4494f0b68fc37e81a906cc6820f92da">vmc96api.h</a>
-, <a class="el" href="vmc96api_8c.html#ad4494f0b68fc37e81a906cc6820f92da">vmc96api.c</a>
+: <a class="el" href="vmc96api_8h.html#a5e97c28f78638a75671e7996f68185db">vmc96api.h</a>
+, <a class="el" href="vmc96api_8c.html#a5e97c28f78638a75671e7996f68185db">vmc96api.c</a>
 </li>
 <li>vmc96_relay_get_version()
 : <a class="el" href="vmc96api_8h.html#a8f83648b957242c1ba11a7c14374cb9c">vmc96api.h</a>
@@ -316,6 +336,12 @@
 </li>
 <li>vmc96cli_arguments_t
 : <a class="el" href="vmc96cli_8c.html#aa461e2975cc41e988e4965e2bee7e58d">vmc96cli.c</a>
+</li>
+<li>VMC96CLI_COMMAND_ARRAY_SCAN
+: <a class="el" href="vmc96cli_8c.html#ab5975bde337302dbc01b5be0e8c6cd01">vmc96cli.c</a>
+</li>
+<li>VMC96CLI_COMMAND_GIVE_PULSE
+: <a class="el" href="vmc96cli_8c.html#a935773d7826fb4459ce190f045d8c16a">vmc96cli.c</a>
 </li>
 <li>VMC96CLI_COMMAND_INVALID
 : <a class="el" href="vmc96cli_8c.html#ac3ab63c98ec8f2c8f871c3650929dcac">vmc96cli.c</a>
@@ -380,6 +406,9 @@
 <li>VMC96CLI_ERROR_ARGS_CONTROLLER_NOT_SPECIFIED
 : <a class="el" href="vmc96cli_8c.html#a7c9109b9660a164266a416ec08501688">vmc96cli.c</a>
 </li>
+<li>VMC96CLI_ERROR_ARGS_DURATION
+: <a class="el" href="vmc96cli_8c.html#a27a0162575ef04bc0c1ad4e8a007d44e">vmc96cli.c</a>
+</li>
 <li>VMC96CLI_ERROR_ARGS_MOTOR_COLUMN
 : <a class="el" href="vmc96cli_8c.html#a8944d75afe5cd8c1c154a1305aebfca2">vmc96cli.c</a>
 </li>
@@ -397,6 +426,9 @@
 </li>
 <li>VMC96CLI_ERROR_COMMAND_FAILED
 : <a class="el" href="vmc96cli_8c.html#afd4525aa7cdc55ea00ea59cf83ec2242">vmc96cli.c</a>
+</li>
+<li>VMC96CLI_ERROR_INVALID_ARGS
+: <a class="el" href="vmc96cli_8c.html#aa49ba412a801b7fadd4439127a6108e2">vmc96cli.c</a>
 </li>
 <li>VMC96CLI_SUCCESS
 : <a class="el" href="vmc96cli_8c.html#acfa6ddaf5b93df16cadea429c08cd99e">vmc96cli.c</a>
