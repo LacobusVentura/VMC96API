@@ -63,7 +63,6 @@
 #define VMC96_K1_RESPONSE_TYPE_DATA                       (2)
 
 /* DEVICE */
-#define VMC96_DEFAULT_RESPONSE_DELAY_MS                   (10)
 #define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)
 
 /* VMC96 AVAILABLE CONTROLLERS */
@@ -155,7 +154,7 @@ static void vmc96_dump_buffer( FILE * fp, const char * desc, unsigned char * buf
 	\param buflen
 	\return
 */
-static char vmc96_calculate_checksum( unsigned char * buf, size_t buflen );
+static unsigned char vmc96_calculate_checksum( unsigned char * buf, size_t buflen );
 
 /*!
 	\brief Send K1 Message
@@ -415,14 +414,11 @@ int vmc96_motor_opto_line_status( VMC96_t * vmc96, VMC96_opto_line_sample_block_
 	if( ret != VMC96_SUCCESS )
 		return ret;
 
-	if( vmc96->response.data_length == 5 )
+	for( i = 0; i < 4; i++ )
 	{
-		for( i = 0; i < 4; i++ )
+		for( j = 0; j < 8; j++ )
 		{
-			for( j = 0; j < 8; j++ )
-			{
-				status_block->sample[ k++ ] = (vmc96->response.data[ i + 1 ] >> j) & 0x01;
-			}
+			status_block->sample[ k++ ] = (vmc96->response.data[ i + 1 ] >> j) & 0x01;
 		}
 	}
 
@@ -441,18 +437,20 @@ int vmc96_motor_scan_array( VMC96_t * vmc96, VMC96_motor_array_scan_result_t * r
 	if( ret != VMC96_SUCCESS )
 		return ret;
 
-	if( vmc96->response.data_length >= 2 )
+	if( vmc96->response.data[0] != VMC96_COMMAND_MOTOR_SCAN_ARRAY )
+		return VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE;
+
+	memset( &result->array, 0, sizeof(VMC96_motor_array_scan_result_t) );
+
+	for( row = 0; row < VMC96_MOTOR_ARRAY_ROWS_COUNT; row++ )
 	{
-		if( vmc96->response.data[0] != VMC96_COMMAND_MOTOR_SCAN_ARRAY )
-			return VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE;
+		for( col = 0; col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT; col++ )
+		{
+			result->array.motor[ row ][ col ] = ( vmc96->response.data[ 1 + col ] >> row ) & 0x1;
 
-		result->count = vmc96->response.data_length - 2;
-
-		memset( &result->array, 0, sizeof(VMC96_motor_array_t) );
-
-		for( row = 0; row < VMC96_MOTOR_ARRAY_ROWS_COUNT; row++ )
-			for( col = 0; col < VMC96_MOTOR_ARRAY_COLUMNS_COUNT; col++ )
-				result->array.motor[ row ][ col ] = ( vmc96->response.data[ 2 + row ] >> col ) & 0x1;
+			if( result->array.motor[ row ][ col ] )
+				result->count++;
+		}
 	}
 
 	return VMC96_SUCCESS;
@@ -485,9 +483,9 @@ int vmc96_global_reset( VMC96_t * vmc96 )
 /* *                    MESSAGE CONTROL FUNCTIONS                      * */
 /* ********************************************************************* */
 
-static char vmc96_calculate_checksum( unsigned char * buf, size_t buflen )
+static unsigned char vmc96_calculate_checksum( unsigned char * buf, size_t buflen )
 {
-	char sum = 0;
+	unsigned char sum = 0;
 	unsigned long i = 0;
 
 	for( i = 0; i < buflen; i++ )
@@ -671,12 +669,18 @@ static int vmc96_send_k1_message( VMC96_t * vmc96 )
 	if( ret < 0 )
 		return VMC96_ERROR_FTDI_WRITE_DATA;
 
-	VMC96_SLEEP_MS( VMC96_DEFAULT_RESPONSE_DELAY_MS );
+	while(1)
+	{
+		ret = ftdi_read_data( vmc96->ftdi, vmc96->response.k1, VMC96_K1_MESSAGE_MAX_LEN );
 
-	ret = ftdi_read_data( vmc96->ftdi, vmc96->response.k1, VMC96_K1_MESSAGE_MAX_LEN );
+		if( ret < 0 )
+			return VMC96_ERROR_FTDI_READ_DATA;
 
-	if( ret < 0 )
-		return VMC96_ERROR_FTDI_READ_DATA;
+		if( ret > 0 )
+			break;
+
+		VMC96_SLEEP_MS(5);
+	}
 
 	vmc96->response.k1_length = ret;
 

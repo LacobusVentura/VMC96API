@@ -454,9 +454,9 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						return VMC96CLI_ERROR_COMMAND_FAILED;
 					}
 
-					fprintf( stdout, "Motor Array Status:\n");
+					fprintf( stdout, "MOTOR ARRAY STATUS:\n\n");
 					fprintf( stdout, "	Active Motors Count: %d\n", status.active_count );
-					fprintf( stdout, "	Total Current Drained: %dmA\n", status.current_ma );
+					fprintf( stdout, "	Total Current Drained: %dmA\n\n", status.current_ma );
 					fprintf( stdout, "	Array:\n" );
 
 					for( row = 0; row < VMC96_MOTOR_ARRAY_ROWS_COUNT; row++ )
@@ -487,7 +487,7 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						return VMC96CLI_ERROR_COMMAND_FAILED;
 					}
 
-					fprintf( stdout, "Opto Line Sensor Status:\n");
+					fprintf( stdout, "OPTO LINE SENSOR STATUS:\n\n");
 					fprintf( stdout, "	Samples per block: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK );
 					fprintf( stdout, "	Total Samples: %d\n", VMC96_OPTO_LINE_SAMPLES_PER_BLOCK  );
 					fprintf( stdout, "	Time per Sample: %dms\n", VMC96_OPTO_LINE_SAMPLE_LENGTH_MS );
@@ -535,8 +535,8 @@ static int vmc96cli_execute( VMC96_t * vmc96, vmc96cli_arguments_t * args )
 						return VMC96CLI_ERROR_COMMAND_FAILED;
 					}
 
-					fprintf( stdout, "Motor Array Scan Results:\n");
-					fprintf( stdout, "	Motors Count: %d\n", result.count );
+					fprintf( stdout, "MOTOR ARRAY SCAN RESULTS:\n\n");
+					fprintf( stdout, "	Motors Count: %d\n\n", result.count );
 					fprintf( stdout, "	Motor Array:\n" );
 
 					for( row = 0; row < VMC96_MOTOR_ARRAY_ROWS_COUNT; row++ )

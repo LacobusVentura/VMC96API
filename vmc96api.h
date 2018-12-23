@@ -147,7 +147,7 @@ extern "C"
 		\brief Retrieve Motor Array Controller Version.
 		\param vmc96 Pointer to VMC96 Context Object.
 		\param id Relay ID.
-		\param version.
+		\param version Buffer to store version string
 		\return Returns VMC96_SUCCESS in case of success.
 	*/
 	int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version );
@@ -179,7 +179,7 @@ extern "C"
 	/*!
 		\brief Retrieve Motor Array Controller Version.
 		\param vmc96 Pointer to VMC96 Context Object.
-		\param version
+		\param version Buffer to store version string
 		\return Returns VMC96_SUCCESS in case of success.
 	*/
 	int vmc96_motor_get_version( VMC96_t * vmc96, char * version );

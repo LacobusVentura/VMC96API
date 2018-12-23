@@ -35,7 +35,7 @@ SEARCHENGINE           = NO
 FILE_PATTERNS          = *.c *.h
 RECURSIVE              = YES
 
-INPUT = ./vmc96api.h ./vmc96api.c ./vmc96cli.c
+INPUT = ./vmc96api.h ./vmc96api.c ./vmc96cli.c ./examples/
 
 # **********************************************************************
 # eof #
