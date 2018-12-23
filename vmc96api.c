@@ -61,6 +61,7 @@
 #define VMC96_K1_RESPONSE_TYPE_INVALID                    (-1)
 #define VMC96_K1_RESPONSE_TYPE_ACK                        (1)
 #define VMC96_K1_RESPONSE_TYPE_DATA                       (2)
+#define VMC96_K1_RESPONSE_TIMEOUT_MS                      (1000L)
 
 /* DEVICE */
 #define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)
@@ -99,7 +100,7 @@
 
 /* SLEEP/DELAY */
 #ifdef __linux__
-#define VMC96_SLEEP_MS( _t )    usleep( _t / 1000L )
+#define VMC96_SLEEP_MS( _t )    usleep( _t * 1000L )
 #elif _WIN32
 #define VMC96_SLEEP_MS( _t )    Sleep( _t )
 #else
@@ -248,6 +249,7 @@ const char * vmc96_get_error_code_string( int cod )
 		case VMC96_ERROR_K1_RESPONSE_MALFORMED        : return "Response malformed."; break;
 		case VMC96_ERROR_K1_RESPONSE_INVALID_SOURCE   : return "Invalid response source."; break;
 		case VMC96_ERROR_K1_RESPONSE_INVALID_LENGTH   : return "Invalid response length."; break;
+		case VMC96_ERROR_K1_RESPONSE_TIMEOUT          : return "Device took too long to respond (timeout)."; break;
 		case VMC96_ERROR_INVALID_MOTOR_COORDINATES    : return "Invalid motor coordinates."; break;
 		default                                       : return "Unknown error."; break;
 
@@ -658,6 +660,7 @@ static int vmc96_parse_k1_response( VMC96_t * vmc96 )
 static int vmc96_send_k1_message( VMC96_t * vmc96 )
 {
 	int ret = 0;
+	int i = 0;
 
 	ret = ftdi_usb_purge_buffers( vmc96->ftdi );
 
@@ -669,22 +672,23 @@ static int vmc96_send_k1_message( VMC96_t * vmc96 )
 	if( ret < 0 )
 		return VMC96_ERROR_FTDI_WRITE_DATA;
 
-	while(1)
+	for( i = 0; i < VMC96_K1_RESPONSE_TIMEOUT_MS; i = i + 10 )
 	{
+		VMC96_SLEEP_MS(10);
+
 		ret = ftdi_read_data( vmc96->ftdi, vmc96->response.k1, VMC96_K1_MESSAGE_MAX_LEN );
 
 		if( ret < 0 )
 			return VMC96_ERROR_FTDI_READ_DATA;
 
 		if( ret > 0 )
-			break;
-
-		VMC96_SLEEP_MS(5);
+		{
+			vmc96->response.k1_length = ret;
+			return VMC96_SUCCESS;
+		}
 	}
 
-	vmc96->response.k1_length = ret;
-
-	return VMC96_SUCCESS;
+	return VMC96_ERROR_K1_RESPONSE_TIMEOUT;
 }
 
 
