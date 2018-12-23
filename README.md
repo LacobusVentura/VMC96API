@@ -23,7 +23,7 @@ int vmc96_relay_get_version( VMC96_t * vmc96, unsigned char id, char * version )
 
 int vmc96_relay_reset( VMC96_t * vmc96, unsigned char id );
 
-int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, bool state );
+int vmc96_relay_control( VMC96_t * vmc96, unsigned char id, unsigned char state );
 
 int vmc96_motor_ping( VMC96_t * vmc96 );
 
@@ -39,7 +39,7 @@ int vmc96_motor_run( VMC96_t * vmc96, unsigned char row, unsigned char col );
 
 int vmc96_motor_pair_run( VMC96_t * vmc96, unsigned char row, unsigned char col1, unsigned char col2 );
 
-int vmc96_motor_opto_line_status( VMC96_t * vmc96, uint32_t * status );
+int vmc96_motor_opto_line_status( VMC96_t * vmc96, VMC96_opto_line_sample_block_t * status );
 
 int vmc96_motor_scan_array( VMC96_t * vmc96, VMC96_motor_array_scan_result_t * result );
 
