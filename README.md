@@ -131,7 +131,7 @@ $ vmc96cli --help
 
  This project was written and is maintained by Tiago Ventura (*tiago.ventura(at)gmail.com*).
  
- ## License
+ ## MIT License
  ```
  Copyright (c) 2018 - Tiago Ventura
 
