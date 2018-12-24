@@ -1,12 +1,12 @@
 # VMC96 APPLICATION PROGRAMMING INTERFACE (API)
 
-A very simple Application Programming Interface (API) to control **VMC96** Vending Machine Controller Boards written in C language.
+A very simple Application Programming Interface (API) written in C language to control **VMC96** Vending Machine Controller Boards using MoneyFlex's K1 Protocol.
 
 <p align="center"><img alt="VMC96 Board" src="https://raw.githubusercontent.com/LacobusVentura/vmc96/master/images/VMC96-Front.jpg" width="60%" height="60%"></p>
 
 **VMC96** is a gateway to conventional vending components and let them to be controlled by your application. It can drive 96 dispense motors in a 8x12 matrix and it is “Opto-eye Ready” for users to build their “Sure Vend” style of optical detection. It gives machine owners an edge to modernize their old machines. (See more: http://www.moneyflex.net/vmc96/)
 
-## Interface Functions
+## API Functions
 
 ```C
 int vmc96_initialize( VMC96_t ** vmc96 );
