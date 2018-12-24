@@ -49,6 +49,7 @@
 /* VMC96 DEVICE */
 #define VMC96_DEVICE_VENDOR_ID                            (0x0CE5)
 #define VMC96_DEVICE_PRODUCT_ID                           (0x0023)
+#define VMC96_DEVICE_BAUDRATE                             (19200)
 
 /* K1 PROTOCOL SPECIFICS */
 #define VMC96_K1_MESSAGE_STX                              (0x35)
@@ -61,7 +62,8 @@
 #define VMC96_K1_RESPONSE_TYPE_INVALID                    (-1)
 #define VMC96_K1_RESPONSE_TYPE_ACK                        (1)
 #define VMC96_K1_RESPONSE_TYPE_DATA                       (2)
-#define VMC96_K1_RESPONSE_TIMEOUT_MS                      (1000L)
+#define VMC96_K1_RESPONSE_TIMEOUT_MS                      (1000)
+#define VMC96_K1_RESPONSE_READ_RETRY_DELAY_MS             (10)
 
 /* DEVICE */
 #define VMC96_MOTOR_MAX_CURRENT_READING_MA                (500)
@@ -106,6 +108,18 @@
 #else
 #define VMC96_SLEEP_MS( _t )
 #endif
+
+/* DEBUG */
+#ifdef _DEBUG
+#define VMC96_DEBUG_MSG( _str )                      fprintf( stdout, _str )
+#define VMC96_DEBUG_FMT_MSG( _fmt, ... )             fprintf( stdout, _fmt, __VA_ARGS__ )
+#define VMC96_DEBUG_BUFFER( _desc, _buf, _len )      vmc96_dump_buffer( stdout, _desc, _buf, _len )
+#else
+#define VMC96_DEBUG_MSG( _str )
+#define VMC96_DEBUG_FMT_MSG( _fmt, ... )
+#define VMC96_DEBUG_BUFFER( _desc, _buf, _len )
+#endif
+
 
 /* ********************************************************************* */
 /* *                        STRUCTS AND DATA TYPES                     * */
@@ -206,7 +220,6 @@ static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsig
 
 static void vmc96_dump_buffer( FILE * fp, const char * desc, unsigned char * buf, size_t len )
 {
-#ifdef _DEBUG
 	size_t i = 0;
 
 	fprintf( fp, "[DEBUG] %s (%ld): ", desc, len );
@@ -215,12 +228,6 @@ static void vmc96_dump_buffer( FILE * fp, const char * desc, unsigned char * buf
 		fprintf( fp, "0x%02X ", buf[i] );
 
 	fprintf( fp, "\n" );
-#else
-	(void) fp;
-	(void) desc;
-	(void) buf;
-	(void) len;
-#endif
 }
 
 
@@ -672,9 +679,9 @@ static int vmc96_send_k1_message( VMC96_t * vmc96 )
 	if( ret < 0 )
 		return VMC96_ERROR_FTDI_WRITE_DATA;
 
-	for( i = 0; i < VMC96_K1_RESPONSE_TIMEOUT_MS; i = i + 10 )
+	for( i = 0; i < VMC96_K1_RESPONSE_TIMEOUT_MS; i += VMC96_K1_RESPONSE_READ_RETRY_DELAY_MS  )
 	{
-		VMC96_SLEEP_MS(10);
+		VMC96_SLEEP_MS( VMC96_K1_RESPONSE_READ_RETRY_DELAY_MS );
 
 		ret = ftdi_read_data( vmc96->ftdi, vmc96->response.k1, VMC96_K1_MESSAGE_MAX_LEN );
 
@@ -719,14 +726,14 @@ static int vmc96_send_message_ex( VMC96_t * vmc96, unsigned char id_cntlr, unsig
 	if( ret != VMC96_SUCCESS )
 		return ret;
 
-	vmc96_dump_buffer( stdout, "K1-MESSAGE", vmc96->message.k1, vmc96->message.k1_length );
+	VMC96_DEBUG_BUFFER( "K1-MESSAGE", vmc96->message.k1, vmc96->message.k1_length );
 
 	ret = vmc96_send_k1_message( vmc96 );
 
 	if( ret != VMC96_SUCCESS )
 		return ret;
 
-	vmc96_dump_buffer( stdout, "K1-RESPONSE", vmc96->response.k1, vmc96->response.k1_length );
+	VMC96_DEBUG_BUFFER( "K1-RESPONSE", vmc96->response.k1, vmc96->response.k1_length );
 
 	return vmc96_parse_k1_response( vmc96 );
 }
@@ -741,6 +748,8 @@ void vmc96_finish( VMC96_t * vmc96 )
 	ftdi_usb_close( vmc96->ftdi );
 	ftdi_free( vmc96->ftdi );
 	free( vmc96 );
+
+	VMC96_DEBUG_MSG( "[DEBUG] Disconnected from VMC96 Board.\n");
 }
 
 
@@ -788,7 +797,7 @@ int vmc96_initialize( VMC96_t ** ppvmc96 )
 		goto error_cleanup;
 	}
 
-	ret = ftdi_set_baudrate( vmc96->ftdi, 19200 );
+	ret = ftdi_set_baudrate( vmc96->ftdi, VMC96_DEVICE_BAUDRATE );
 
 	if( ret < 0 )
 	{
@@ -814,11 +823,15 @@ int vmc96_initialize( VMC96_t ** ppvmc96 )
 
 	*ppvmc96 = vmc96;
 
+	VMC96_DEBUG_MSG( "[DEBUG] VMC96 board initialized successfully.\n" );
+
 	return VMC96_SUCCESS;
 
 error_cleanup:
 
 	*ppvmc96 = NULL;
+
+	VMC96_DEBUG_FMT_MSG( "[DEBUG] Cannot initialize VMC96 board: %s\n", vmc96_get_error_code_string(ret) );
 
 	ftdi_usb_close( vmc96->ftdi );
 	ftdi_free( vmc96->ftdi );
